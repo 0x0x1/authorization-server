@@ -1,8 +1,9 @@
 package com.authorization.server.domain.account;
 
+import java.util.Optional;
+
 public interface AccountRepository {
 
-    Account findAccountByEmail(String email);
-    Account findAccountByUsername(String username);
-    boolean save(Account account);
+    Optional<Account> save(Account account);
+    void flush();
 }

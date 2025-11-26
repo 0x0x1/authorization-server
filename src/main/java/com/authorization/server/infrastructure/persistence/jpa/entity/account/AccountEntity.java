@@ -1,31 +1,31 @@
 package com.authorization.server.infrastructure.persistence.jpa.entity.account;
 
+import java.util.Set;
+import java.util.UUID;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-
-import com.authorization.server.domain.account.RoleType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@MappedSuperclass
 @Getter
 @Setter
+@Entity
 public class AccountEntity {
 
-    protected AccountEntity() {}
+    public AccountEntity() {}
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    protected Long id;
+    @GeneratedValue
+    protected UUID id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     protected String username;
 
     @Column(nullable = false)
@@ -34,8 +34,20 @@ public class AccountEntity {
     @Column(unique = true, nullable = false)
     protected String email;
 
-    @Enumerated(EnumType.STRING)
-    private RoleType role;
+    @ManyToMany
+    @JoinTable(
+            name = "account_roles",
+            joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    @Column(nullable = false)
+    private Set<RoleTypeEntity> roleTypeEntities;
+
+    @Column(nullable = false)
+    protected Boolean isAccountEnabled;
+
+    @Column(nullable = false)
+    protected Boolean isAccountPasswordExpired;
 
     @Embedded
     protected AccountStateEntity accountStateEntity;

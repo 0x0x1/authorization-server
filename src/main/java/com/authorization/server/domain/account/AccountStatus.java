@@ -2,7 +2,8 @@ package com.authorization.server.domain.account;
 
 public enum AccountStatus {
     ACTIVE,
-    INACTIVE;
+    INACTIVE,
+    EMPTY;
 
     Boolean isActive() {
         return this == ACTIVE;

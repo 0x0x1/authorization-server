@@ -2,21 +2,19 @@ package com.authorization.server.domain.account;
 
 import java.util.Set;
 
-public enum RoleType {
-    ROLE_USER(Set.of(Permission.READ_PERMISSION)),
-    ROLE_ADMIN(Set.of(Permission.READ_PERMISSION, Permission.WRITE_PERMISSION, Permission.DELETE_PERMISSION));
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@AllArgsConstructor
+public class RoleType {
+
+    private String displayName;
     private final Set<Permission> permissions;
 
-    RoleType(Set<Permission> permissions) {
-        this.permissions = permissions;
-    }
-
-    public Boolean hasPermission(Permission permission) {
+    private Boolean hasPermission(Permission permission) {
         return permissions.contains(permission);
     }
 
-    public Boolean supportPasswordReset() {
-        return this.equals(ROLE_ADMIN);
-    }
 }

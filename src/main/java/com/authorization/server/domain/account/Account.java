@@ -1,32 +1,38 @@
 package com.authorization.server.domain.account;
 
+import java.time.Instant;
 import java.util.Objects;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class Account {
 
+    private final UUID id;
     private final String username;
     private final String password;
     private final String email;
-    private final RoleType roleType;
+    private final Set<RoleType> roleTypes;
     private final AccountState accountState;
+    private static final Random random = new Random();
 
     private final Boolean isAccountEnabled;
-    private final Boolean isPasswordExpired;
+    private final Boolean isAccountPasswordExpired;
 
     private Account(AccountBuilder builder) {
+        this.id = builder.id;
         this.username = builder.username;
         this.password = builder.password;
         this.email = builder.email;
-        this.roleType = builder.roleType;
+        this.roleTypes = builder.roleTypes;
         this.accountState = builder.accountState;
         this.isAccountEnabled = builder.isAccountEnabled;
-        this.isPasswordExpired = builder.isAccountPasswordExpired;
+        this.isAccountPasswordExpired = builder.isAccountPasswordExpired;
     }
 
     Boolean isAccountEnabled() {
@@ -51,13 +57,19 @@ public class Account {
 
     // Builder Design Pattern
     public static class AccountBuilder {
+        private UUID id;
         private String username;
         private String password;
         private String email;
-        private RoleType roleType;
+        private Set<RoleType> roleTypes;
         private AccountState accountState;
         private Boolean isAccountEnabled;
         private Boolean isAccountPasswordExpired;
+
+        public AccountBuilder id(UUID id) {
+            this.id = id;
+            return this;
+        }
 
         public AccountBuilder username(String name) {
             this.username = name;
@@ -74,8 +86,8 @@ public class Account {
             return this;
         }
 
-        public AccountBuilder roleType(RoleType roleType) {
-            this.roleType = roleType;
+        public AccountBuilder roleTypes(Set<RoleType> roleType) {
+            this.roleTypes = roleType;
             return this;
         }
 
@@ -108,7 +120,16 @@ public class Account {
         if (object == null || getClass() != object.getClass()) return false;
 
         Account account = (Account) object;
-        return Objects.equals(username, account.username) && Objects.equals(password, account.password) && Objects.equals(email, account.email) && roleType == account.roleType && Objects.equals(accountState, account.accountState) && Objects.equals(isAccountEnabled, account.isAccountEnabled) && Objects.equals(isPasswordExpired, account.isPasswordExpired);
+        return Objects.equals(username, account.username) && Objects.equals(password, account.password) && Objects.equals(email, account.email) && roleTypes == account.roleTypes && Objects.equals(accountState, account.accountState) && Objects.equals(isAccountEnabled, account.isAccountEnabled) && Objects.equals(isAccountPasswordExpired, account.isAccountPasswordExpired);
+    }
+
+    private static UUID generateUUIDv7() {
+        long epochMillis = Instant.now().toEpochMilli();
+        long mostSigBits = (epochMillis & 0xFFFFFFFFFFFFL) << 16;
+        mostSigBits |= 0x7000; // version 7
+        mostSigBits |= random.nextInt(0x1000);
+        long leastSigBits = random.nextLong();
+        return new UUID(mostSigBits, leastSigBits);
     }
 
     @Override
@@ -116,10 +137,10 @@ public class Account {
         int result = Objects.hashCode(username);
         result = 31 * result + Objects.hashCode(password);
         result = 31 * result + Objects.hashCode(email);
-        result = 31 * result + Objects.hashCode(roleType);
+        result = 31 * result + Objects.hashCode(roleTypes);
         result = 31 * result + Objects.hashCode(accountState);
         result = 31 * result + Objects.hashCode(isAccountEnabled);
-        result = 31 * result + Objects.hashCode(isPasswordExpired);
+        result = 31 * result + Objects.hashCode(isAccountPasswordExpired);
         return result;
     }
 
@@ -129,10 +150,10 @@ public class Account {
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", role=" + roleType +
+                ", role=" + roleTypes +
                 ", accountState=" + accountState +
                 ", isActive=" + isAccountEnabled +
-                ", isPasswordExpired=" + isPasswordExpired +
+                ", isPasswordExpired=" + isAccountPasswordExpired +
                 '}';
     }
 }

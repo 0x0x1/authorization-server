@@ -1,7 +1,14 @@
 package com.authorization.server.domain.account;
 
-public enum Permission {
-    READ_PERMISSION,
-    WRITE_PERMISSION,
-    DELETE_PERMISSION
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Permission {
+
+    private String name;
+    private String description;
 }

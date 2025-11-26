@@ -11,13 +11,12 @@ import org.springframework.data.annotation.CreatedDate;
 
 import com.authorization.server.domain.account.AccountStatus;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 @Embeddable
 @Getter
-@Setter(AccessLevel.PRIVATE)
+@Setter
 public class AccountStateEntity {
 
     public AccountStateEntity() {}
