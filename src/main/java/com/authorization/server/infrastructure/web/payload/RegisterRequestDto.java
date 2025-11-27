@@ -8,5 +8,5 @@ public record RegisterRequestDto(
         String username,
         String password,
         String email,
-        Set<RoleType> role) {
+        Set<RoleType> roleTypes) {
 }

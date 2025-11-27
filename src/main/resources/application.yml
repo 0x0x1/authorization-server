@@ -16,4 +16,11 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create-drop       # Auto-update schema
-    show-sql: false                # Log SQL queries
+    show-sql: false  # Log SQL queries
+
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

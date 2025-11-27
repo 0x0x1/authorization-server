@@ -2,6 +2,7 @@ package com.authorization.server.infrastructure.persistence.jpa.entity.account;
 
 import java.util.Set;
 import java.util.UUID;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -34,13 +35,12 @@ public class AccountEntity {
     @Column(unique = true, nullable = false)
     protected String email;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "account_roles",
             joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @Column(nullable = false)
     private Set<RoleTypeEntity> roleTypeEntities;
 
     @Column(nullable = false)

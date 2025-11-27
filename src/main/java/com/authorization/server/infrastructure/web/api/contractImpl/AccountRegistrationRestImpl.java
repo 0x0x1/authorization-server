@@ -8,6 +8,7 @@ import java.util.Locale;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.authorization.server.infrastructure.web.api.contract.AccountRegistrationRestDefinition;
@@ -17,6 +18,7 @@ import com.authorization.server.infrastructure.web.helper.utility.I18n;
 import com.authorization.server.infrastructure.web.payload.RegisterRequestDto;
 
 @RestController
+@RequestMapping(AccountRegistrationRestDefinition.BASE_PATH)
 public class AccountRegistrationRestImpl implements AccountRegistrationRestDefinition {
 
     private final I18n i18n;

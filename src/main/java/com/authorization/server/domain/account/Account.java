@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +23,7 @@ public class Account {
     private static final Random random = new Random();
 
     private final Boolean isAccountEnabled;
-    private final Boolean isAccountPasswordExpired;
+    private final Boolean isAccountPasswordNotExpired;
 
     private Account(AccountBuilder builder) {
         this.id = builder.id;
@@ -31,12 +32,23 @@ public class Account {
         this.email = builder.email;
         this.roleTypes = builder.roleTypes;
         this.accountState = builder.accountState;
-        this.isAccountEnabled = builder.isAccountEnabled;
-        this.isAccountPasswordExpired = builder.isAccountPasswordExpired;
+        this.isAccountEnabled = builder.isAccountEnabled != null ? builder.isAccountEnabled : false;
+        this.isAccountPasswordNotExpired = builder.isAccountPasswordExpired != null ? builder.isAccountPasswordExpired : false;
     }
 
     Boolean isAccountEnabled() {
         return getAccountState().getAccountStatus().isActive();
+    }
+
+    public Set<Permission> getAllPermissions() {
+        return getRoleTypes().stream()
+                .flatMap(roleType -> roleType.getPermissions().stream())
+                .collect(Collectors.toSet());
+    }
+
+    Boolean hasPermission(String permissionName) {
+        return getAllPermissions().stream()
+                .anyMatch(permission -> permission.getPermissionName().equals(permissionName));
     }
 
     public void enableAccount() {
@@ -120,7 +132,7 @@ public class Account {
         if (object == null || getClass() != object.getClass()) return false;
 
         Account account = (Account) object;
-        return Objects.equals(username, account.username) && Objects.equals(password, account.password) && Objects.equals(email, account.email) && roleTypes == account.roleTypes && Objects.equals(accountState, account.accountState) && Objects.equals(isAccountEnabled, account.isAccountEnabled) && Objects.equals(isAccountPasswordExpired, account.isAccountPasswordExpired);
+        return Objects.equals(username, account.username) && Objects.equals(password, account.password) && Objects.equals(email, account.email) && roleTypes == account.roleTypes && Objects.equals(accountState, account.accountState) && Objects.equals(isAccountEnabled, account.isAccountEnabled) && Objects.equals(isAccountPasswordNotExpired, account.isAccountPasswordNotExpired);
     }
 
     private static UUID generateUUIDv7() {
@@ -140,7 +152,7 @@ public class Account {
         result = 31 * result + Objects.hashCode(roleTypes);
         result = 31 * result + Objects.hashCode(accountState);
         result = 31 * result + Objects.hashCode(isAccountEnabled);
-        result = 31 * result + Objects.hashCode(isAccountPasswordExpired);
+        result = 31 * result + Objects.hashCode(isAccountPasswordNotExpired);
         return result;
     }
 
@@ -150,10 +162,10 @@ public class Account {
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", role=" + roleTypes +
+                ", roleTypes=" + roleTypes +
                 ", accountState=" + accountState +
                 ", isActive=" + isAccountEnabled +
-                ", isPasswordExpired=" + isAccountPasswordExpired +
+                ", isPasswordExpired=" + isAccountPasswordNotExpired +
                 '}';
     }
 }

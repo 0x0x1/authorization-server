@@ -77,6 +77,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>ro.polak</groupId>
+            <artifactId>spring-boot-data-fixtures</artifactId>
+            <version>0.2.0</version>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.github.spotbugs</groupId>-->
 <!--            <artifactId>spotbugs-annotations</artifactId>-->

@@ -1,4 +1,4 @@
-package com.authorization.server.infrastructure.persistence.mapper;
+package com.authorization.server.infrastructure.persistence.converter;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -10,27 +10,32 @@ import com.authorization.server.infrastructure.persistence.jpa.entity.account.Pe
 import com.authorization.server.infrastructure.persistence.jpa.entity.account.RoleTypeEntity;
 
 @Component
-public class RoleTypeMapper implements Mapper<RoleType, RoleTypeEntity> {
+public class RoleTypeToRoleTypeEntityConverter implements Converter<RoleType, RoleTypeEntity> {
 
-    private final PermissionMapper permissionMapper;
+    private final PermissionToPermissionEntityConverter permissionMapper;
 
-    public RoleTypeMapper(PermissionMapper permissionMapper) {
+    public RoleTypeToRoleTypeEntityConverter(PermissionToPermissionEntityConverter permissionMapper) {
         this.permissionMapper = permissionMapper;
     }
 
     @Override
-    public RoleTypeEntity convert(RoleType dataContainer) {
-        if (dataContainer == null) {
+    public RoleTypeEntity convert(RoleType fromSource) {
+        if (fromSource == null) {
             throw new IllegalArgumentException("RoleType cannot be null");
         }
 
-        Set<PermissionEntity> permissionEntities = dataContainer.getPermissions().stream()
+        Set<PermissionEntity> permissionEntities = fromSource.getPermissions().stream()
                 .map(permissionMapper::convert).collect(Collectors.toSet());
 
         var roleTypeEntity = new RoleTypeEntity();
         roleTypeEntity.setPermissionEntities(permissionEntities);
-        roleTypeEntity.setDisplayName(dataContainer.getDisplayName());
+        roleTypeEntity.setRoleTypeName(fromSource.getRoleTypeName());
 
         return roleTypeEntity;
+    }
+
+    @Override
+    public RoleType reverse(RoleTypeEntity fromTarget) {
+        throw new UnsupportedOperationException();
     }
 }

@@ -9,27 +9,31 @@ import com.authorization.server.application.exception.DuplicateUserException;
 import com.authorization.server.domain.account.Account;
 import com.authorization.server.domain.account.AccountRepository;
 import com.authorization.server.infrastructure.persistence.jpa.contract.AccountRepositoryJpa;
-import com.authorization.server.infrastructure.persistence.mapper.AccountMapper;
+import com.authorization.server.infrastructure.persistence.converter.AccountToAccountEntityConverter;
 
 @Component
 public class AccountRepositoryJpaAdapter implements AccountRepository {
 
     private final AccountRepositoryJpa jpa;
-    private final AccountMapper mapper;
+    private final AccountToAccountEntityConverter converter;
 
-    public AccountRepositoryJpaAdapter(AccountRepositoryJpa jpa, AccountMapper mapper) {
+    public AccountRepositoryJpaAdapter(AccountRepositoryJpa jpa, AccountToAccountEntityConverter converter) {
         this.jpa = jpa;
-        this.mapper = mapper;
+        this.converter = converter;
     }
 
     @Override
     public Optional<Account> save(Account account) {
         try {
-            var accountEntity = jpa.save(mapper.convert(account));
-            return Optional.of(mapper.convertToDomain(accountEntity));
+            var accountEntity = converter.convert(account);
+            var savedAccountEntity = jpa.save(accountEntity);
+            var Account = converter.reverse(savedAccountEntity);
+            return Optional.of(Account);
         } catch (DataIntegrityViolationException e) {
-            throw new DuplicateUserException("User already exists in the database");
+            System.out.println(e.getMessage());
+            //throw new DuplicateUserException("User already exists in the database");
         }
+        return Optional.empty();
     }
 
     @Override

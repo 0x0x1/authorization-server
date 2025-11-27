@@ -8,7 +8,7 @@ import org.springframework.util.Assert;
 import com.authorization.server.application.dto.RegisterCommand;
 import com.authorization.server.application.service.AccountRegistrationService;
 import com.authorization.server.domain.account.Account;
-import com.authorization.server.infrastructure.persistence.mapper.Mapper;
+import com.authorization.server.infrastructure.persistence.converter.Converter;
 import com.authorization.server.infrastructure.web.payload.RegisterRequestDto;
 import com.authorization.server.infrastructure.web.payload.RegisterResponseDto;
 
@@ -16,20 +16,20 @@ import com.authorization.server.infrastructure.web.payload.RegisterResponseDto;
 public class ApiProcessor {
 
     private final AccountRegistrationService service;
-    private final Mapper<RegisterRequestDto, RegisterCommand> cmdMapper;
-    private final Mapper<Account, RegisterResponseDto> acctMapper;
+    private final Converter<RegisterRequestDto, RegisterCommand> cmdConverter;
+    private final Converter<Account, RegisterResponseDto> converter;
 
-    public ApiProcessor(AccountRegistrationService service, Mapper<RegisterRequestDto, RegisterCommand> cmdMapper, Mapper<Account, RegisterResponseDto> acctMapper) {
+    public ApiProcessor(AccountRegistrationService service, Converter<RegisterRequestDto, RegisterCommand> cmdConverter, Converter<Account, RegisterResponseDto> converter) {
         this.service = service;
-        this.cmdMapper = cmdMapper;
-        this.acctMapper = acctMapper;
+        this.cmdConverter = cmdConverter;
+        this.converter = converter;
     }
 
     public RegisterResponseDto registerAccount(RegisterRequestDto requestDto) {
         Assert.notNull(requestDto, "RegisterRequestDto must not be null");
-        var registerCmd = cmdMapper.convert(requestDto);
+        var registerCmd = cmdConverter.convert(requestDto);
         var acct = service.register(registerCmd);
-        return acctMapper.convert(acct);
+        return converter.convert(acct);
     }
 
     /**

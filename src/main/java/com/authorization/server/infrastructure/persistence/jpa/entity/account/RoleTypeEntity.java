@@ -12,25 +12,27 @@ import jakarta.persistence.ManyToMany;
 
 import com.authorization.server.domain.account.Permission;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 public class RoleTypeEntity {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    private String displayName;
+    private String roleTypeName;
 
     @ManyToMany
     @JoinTable(
-            name = "account_roles",
-            joinColumns = @JoinColumn(name = "account_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            name = "roles_permissions",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
     private Set<PermissionEntity> permissionEntities;
 
