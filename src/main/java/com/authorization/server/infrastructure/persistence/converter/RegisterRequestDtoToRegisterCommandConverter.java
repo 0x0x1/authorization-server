@@ -1,5 +1,7 @@
 package com.authorization.server.infrastructure.persistence.converter;
 
+import java.util.Objects;
+
 import org.springframework.stereotype.Component;
 
 import com.authorization.server.application.dto.RegisterCommand;
@@ -10,6 +12,7 @@ public class RegisterRequestDtoToRegisterCommandConverter implements Converter<R
 
     @Override
     public RegisterCommand convert(RegisterRequestDto fromSource) {
+        Objects.requireNonNull(fromSource);
         return new RegisterCommand(fromSource.username(),
                 fromSource.password(),
                 fromSource.email(),

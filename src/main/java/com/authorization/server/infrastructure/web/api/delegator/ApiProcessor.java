@@ -26,7 +26,6 @@ public class ApiProcessor {
     }
 
     public RegisterResponseDto registerAccount(RegisterRequestDto requestDto) {
-        Assert.notNull(requestDto, "RegisterRequestDto must not be null");
         var registerCmd = cmdConverter.convert(requestDto);
         var acct = service.register(registerCmd);
         return converter.convert(acct);

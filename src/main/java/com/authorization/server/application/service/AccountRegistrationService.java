@@ -32,7 +32,6 @@ public class AccountRegistrationService {
                     .accountState(accountState)
                     .isAccountEnabled(false)
                     .isAccountPasswordExpired(false)
-                    .hasPermission(false)
                     .build();
 
 

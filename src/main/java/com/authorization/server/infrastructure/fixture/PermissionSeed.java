@@ -11,6 +11,9 @@ import com.authorization.server.infrastructure.persistence.jpa.entity.account.Pe
 import ro.polak.springboot.datafixtures.DataFixture;
 import ro.polak.springboot.datafixtures.DataFixtureSet;
 
+/**
+ * Domain constants. System level configuration.
+ */
 @Component
 @Order(1)
 public class PermissionSeed implements DataFixture {
