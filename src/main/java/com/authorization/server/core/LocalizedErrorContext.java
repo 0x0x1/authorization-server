@@ -1,4 +1,4 @@
-package com.authorization.server.infrastructure.web.helper.api;
+package com.authorization.server.core;
 
 import java.util.Locale;
 

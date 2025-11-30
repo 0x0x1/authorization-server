@@ -1,8 +1,12 @@
-package com.authorization.server.infrastructure.web.helper.api;
+package com.authorization.server.core.validation;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import com.authorization.server.core.Message;
+
+import lombok.Getter;
 
 /**
  * A class that collects and manages {@link Message} objects categorized
@@ -12,14 +16,17 @@ import java.util.List;
  * or processing and to check for errors before proceeding.
  *
  */
-public class MessageList {
+@Getter
+public class ValidationContext {
 
     private final List<Message> errors;
+    private final String context;
 
     /**
      * Constructs an empty {@code MessageList}.
      */
-    public MessageList() {
+    public ValidationContext(String context) {
+        this.context = context;
         errors = new ArrayList<>();
     }
 

@@ -1,9 +1,10 @@
-package com.authorization.server.infrastructure.web.helper.api;
+package com.authorization.server.core;
 
 import java.util.List;
 
 import org.springframework.util.Assert;
 
+import com.authorization.server.core.validation.ValidationContext;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -32,7 +33,7 @@ public class Result<T> {
 
     private final String message;
     @JsonIgnore
-    private final MessageList errors;
+    private final ValidationContext errors;
 
     /**
      * Private constructor used by the builder.
@@ -45,7 +46,7 @@ public class Result<T> {
      *
      * @throws IllegalArgumentException if {@code message} or {@code errors} is {@code null}
      */
-    private Result(T data, int code, String token, String message, MessageList errors) {
+    private Result(T data, int code, String token, String message, ValidationContext errors) {
         Assert.notNull(message, "message must not be null");
         this.data = data;
         this.code = code;
@@ -82,7 +83,7 @@ public class Result<T> {
      * @return the instance of {@code MessageList} containing the error
      * messages (empty if operation is successful).
      */
-    public MessageList getErrors() {
+    public ValidationContext getErrors() {
         return this.errors;
     }
 
@@ -119,7 +120,7 @@ public class Result<T> {
     public static final class ResultBuilder<T> {
         private int code;
         private String message;
-        private MessageList errors = new MessageList();
+        private ValidationContext errors = new ValidationContext("");
         private String token;
         private T data;
 
@@ -159,7 +160,7 @@ public class Result<T> {
          * @param errors a non-null list of error messages.
          * @return this builder.
          */
-        public ResultBuilder<T> errors(MessageList errors) {
+        public ResultBuilder<T> errors(ValidationContext errors) {
             Assert.notNull(errors, "errors cannot be null");
             this.errors = errors;
             return this;

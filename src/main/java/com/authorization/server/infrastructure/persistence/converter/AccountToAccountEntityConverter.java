@@ -7,11 +7,16 @@ import org.springframework.stereotype.Component;
 
 import com.authorization.server.domain.account.Account;
 import com.authorization.server.domain.account.AccountState;
+import com.authorization.server.domain.account.EmailAddress;
 import com.authorization.server.domain.account.Permission;
 import com.authorization.server.domain.account.RoleType;
+import com.authorization.server.domain.account.Username;
 import com.authorization.server.infrastructure.persistence.jpa.entity.account.AccountEntity;
 import com.authorization.server.infrastructure.persistence.jpa.entity.account.AccountStateEntity;
+import com.authorization.server.infrastructure.persistence.jpa.entity.account.EmailAddressEntity;
+import com.authorization.server.infrastructure.persistence.jpa.entity.account.PasswordEntity;
 import com.authorization.server.infrastructure.persistence.jpa.entity.account.RoleTypeEntity;
+import com.authorization.server.infrastructure.persistence.jpa.entity.account.UsernameEntity;
 
 @Component
 public class AccountToAccountEntityConverter implements Converter<Account, AccountEntity> {
@@ -38,9 +43,9 @@ public class AccountToAccountEntityConverter implements Converter<Account, Accou
                 .collect(Collectors.toSet());
 
         var accountEntity = new AccountEntity();
-        accountEntity.setUsername(fromSource.getUsername());
-        accountEntity.setPassword(fromSource.getPassword());
-        accountEntity.setEmail(fromSource.getEmail());
+        accountEntity.setUsername(new UsernameEntity(fromSource.getUsername().getUsername()));
+        accountEntity.setPassword(new PasswordEntity(fromSource.getPassword().getPassword()));
+        accountEntity.setEmail(new EmailAddressEntity(fromSource.getEmail().getEmailAddress()));
         accountEntity.setAccountStateEntity(accountStateEntity);
         accountEntity.setRoleTypeEntities(roleTypeEntities);
         accountEntity.setIsAccountEnabled(false);
@@ -69,11 +74,12 @@ public class AccountToAccountEntityConverter implements Converter<Account, Accou
 
         var accountState = new AccountState(fromTarget.getAccountStateEntity().getAccountStatus(),
                 fromTarget.getAccountStateEntity().getActivatedAt());
+        PasswordEntity password = fromTarget.getPassword();
 
         return Account.builder()
                 .id(fromTarget.getId())
-                .username(fromTarget.getUsername())
-                .email(fromTarget.getEmail())
+                .username(new Username(fromTarget.getUsername().getUsername()))
+                .email(new EmailAddress(fromTarget.getEmail().getEmail()))
                 .accountState(accountState)// or whatever properties Account has
                 .roleTypes(roleTypes)
                 .build();

@@ -1,6 +1,8 @@
-package com.authorization.server.infrastructure.web.helper.api;
+package com.authorization.server.core;
 
 import org.springframework.util.Assert;
+
+import com.authorization.server.core.validation.ValidationContext;
 
 /**
  * Represents a simple message containing a severity and a textual description.
@@ -13,7 +15,7 @@ import org.springframework.util.Assert;
  * This class is often used in validation or processing workflows to
  * report issues or informative notes to the user or calling system.
  *
- * @see MessageList
+ * @see ValidationContext
  */
 public class Message {
 

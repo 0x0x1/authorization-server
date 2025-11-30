@@ -27,13 +27,13 @@ public class AccountEntity {
     protected UUID id;
 
     @Column(nullable = false)
-    protected String username;
+    protected UsernameEntity username;
 
     @Column(nullable = false)
-    protected String password;
+    protected PasswordEntity password;
 
     @Column(unique = true, nullable = false)
-    protected String email;
+    protected EmailAddressEntity email;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(

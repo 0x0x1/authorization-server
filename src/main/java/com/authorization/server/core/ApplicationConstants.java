@@ -1,4 +1,4 @@
-package com.authorization.server.infrastructure.web.helper.utility;
+package com.authorization.server.core;
 
 /**
  * A utility class that holds application-wide constant values.
@@ -68,13 +68,4 @@ public final class ApplicationConstants {
 
     /** HTTP status code for internal server error. */
     public final static int INTERNAL_SERVER_ERROR = 500;
-
-    /** Message severity level: warning. */
-    public static final String WARNING = "app.error.severity.warning";
-
-    /** Message severity level: error. */
-    public static final String ERROR = "app.error.severity.error";
-
-    /** Message severity level: informational message. */
-    public static final String INFO = "app.error.severity.info";
 }

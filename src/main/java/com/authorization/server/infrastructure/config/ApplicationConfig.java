@@ -2,17 +2,19 @@ package com.authorization.server.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.authorization.server.application.service.AccountRegistrationService;
+import com.authorization.server.application.port.outbound.PasswordHashingService;
+import com.authorization.server.application.usecase.RegisterAccountUseCase;
+import com.authorization.server.core.validation.RegisterAccountUseCaseValidator;
 import com.authorization.server.domain.account.AccountRepository;
 
 @Configuration
 public class ApplicationConfig {
 
     @Bean
-    public AccountRegistrationService accountRegistrationUseCase(AccountRepository acctRepository,
-                                                                 PasswordEncoder passwordEncoder) {
-        return new AccountRegistrationService(acctRepository, passwordEncoder);
+    public RegisterAccountUseCase registerAccountUseCase(AccountRepository accountRepository,
+                                                         RegisterAccountUseCaseValidator accountValidator,
+                                                         PasswordHashingService passwordEncoder) {
+        return new RegisterAccountUseCase(accountRepository, accountValidator, passwordEncoder);
     }
 }

@@ -1,10 +1,12 @@
-package com.authorization.server.infrastructure.web.helper.api;
+package com.authorization.server.core;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 import org.springframework.util.Assert;
+
+import com.authorization.server.core.validation.ValidationContext;
 
 /**
  * Utility class providing helper methods for transforming API-related objects,
@@ -19,14 +21,14 @@ public class ApiResponseProcessor {
     /**
      * Utility method to flatten the errors for simplified consumption.
      *
-     * @param messageList
+     * @param validationContext
      * @return flatten errors.
      */
-    public static List<Message> flattenErrors(MessageList messageList) {
-            if (messageList == null || messageList.getErrors() == null) {
+    public static List<Message> flattenErrors(ValidationContext validationContext) {
+            if (validationContext == null || validationContext.getErrors() == null) {
                 return Collections.emptyList();
             }
-            return messageList.getErrors();
+            return validationContext.getErrors();
         }
 
     /**

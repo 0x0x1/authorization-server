@@ -15,9 +15,9 @@ import lombok.Setter;
 public class Account {
 
     private final UUID id;
-    private final String username;
-    private final String password;
-    private final String email;
+    private final Username username;
+    private final Password password;
+    private final EmailAddress email;
     private final Set<RoleType> roleTypes;
     private final AccountState accountState;
     private static final Random random = new Random();
@@ -70,9 +70,9 @@ public class Account {
     // Builder Design Pattern
     public static class AccountBuilder {
         private UUID id;
-        private String username;
-        private String password;
-        private String email;
+        private Username username;
+        private Password password;
+        private EmailAddress email;
         private Set<RoleType> roleTypes;
         private AccountState accountState;
         private Boolean isAccountEnabled;
@@ -83,17 +83,17 @@ public class Account {
             return this;
         }
 
-        public AccountBuilder username(String name) {
+        public AccountBuilder username(Username name) {
             this.username = name;
             return this;
         }
 
-        public AccountBuilder password(String password) {
+        public AccountBuilder password(Password password) {
             this.password = password;
             return this;
         }
 
-        public AccountBuilder email(String email) {
+        public AccountBuilder email(EmailAddress email) {
             this.email = email;
             return this;
         }

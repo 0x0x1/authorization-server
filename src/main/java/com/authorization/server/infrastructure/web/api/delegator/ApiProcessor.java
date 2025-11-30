@@ -3,10 +3,9 @@ package com.authorization.server.infrastructure.web.api.delegator;
 import java.net.URI;
 
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
-import com.authorization.server.application.dto.RegisterCommand;
-import com.authorization.server.application.service.AccountRegistrationService;
+import com.authorization.server.application.command.RegisterCommand;
+import com.authorization.server.application.usecase.RegisterAccountUseCase;
 import com.authorization.server.domain.account.Account;
 import com.authorization.server.infrastructure.persistence.converter.Converter;
 import com.authorization.server.infrastructure.web.payload.RegisterRequestDto;
@@ -15,11 +14,11 @@ import com.authorization.server.infrastructure.web.payload.RegisterResponseDto;
 @Component
 public class ApiProcessor {
 
-    private final AccountRegistrationService service;
+    private final RegisterAccountUseCase service;
     private final Converter<RegisterRequestDto, RegisterCommand> cmdConverter;
     private final Converter<Account, RegisterResponseDto> converter;
 
-    public ApiProcessor(AccountRegistrationService service, Converter<RegisterRequestDto, RegisterCommand> cmdConverter, Converter<Account, RegisterResponseDto> converter) {
+    public ApiProcessor(RegisterAccountUseCase service, Converter<RegisterRequestDto, RegisterCommand> cmdConverter, Converter<Account, RegisterResponseDto> converter) {
         this.service = service;
         this.cmdConverter = cmdConverter;
         this.converter = converter;
