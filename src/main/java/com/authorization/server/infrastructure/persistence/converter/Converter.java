@@ -1,7 +1,6 @@
 package com.authorization.server.infrastructure.persistence.converter;
 
-public interface Converter<INPUT, OUTPUT> {
-
-    OUTPUT convert(INPUT fromSource);
-    INPUT reverse(OUTPUT fromTarget);
+public interface Converter<DOMAIN, ENTITY> {
+    ENTITY toEntity(DOMAIN fromSource);
+    DOMAIN toDomain(ENTITY fromTarget);
 }

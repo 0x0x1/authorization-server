@@ -1,4 +1,4 @@
-package com.authorization.server.domain.token;
+package com.authorization.server.authorization.token;
 
 public enum TokenType {
     JWT,

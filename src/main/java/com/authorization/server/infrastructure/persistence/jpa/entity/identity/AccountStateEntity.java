@@ -1,4 +1,4 @@
-package com.authorization.server.infrastructure.persistence.jpa.entity.account;
+package com.authorization.server.infrastructure.persistence.jpa.entity.identity;
 
 import java.time.Instant;
 import jakarta.persistence.Embeddable;
@@ -9,7 +9,7 @@ import jakarta.persistence.TemporalType;
 
 import org.springframework.data.annotation.CreatedDate;
 
-import com.authorization.server.domain.account.AccountStatus;
+import com.authorization.server.identity.AccountLifecycleStatus;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +22,7 @@ public class AccountStateEntity {
     public AccountStateEntity() {}
 
     @Enumerated(EnumType.STRING)
-    private AccountStatus accountStatus;
+    private AccountLifecycleStatus accountLifecycleStatus;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate

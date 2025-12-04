@@ -1,4 +1,4 @@
-package com.authorization.server.infrastructure.persistence.jpa.entity.account;
+package com.authorization.server.infrastructure.persistence.jpa.entity.identity;
 
 import jakarta.persistence.Embeddable;
 

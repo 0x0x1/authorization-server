@@ -1,12 +1,14 @@
 package com.authorization.server.application.port.inbound;
 
-import com.authorization.server.application.command.RegisterCommand;
-import com.authorization.server.domain.account.Account;
+import java.util.Optional;
+
+import com.authorization.server.identity.Account;
+import com.authorization.server.infrastructure.web.payload.RegisterRequestDto;
 
 /**
  * Application boundary. Entry point to Application capability. Inbound port.
  */
 public interface RegisterAccountUseCase {
 
-    Account register(RegisterCommand cmd);
+    Optional<Account> register(RegisterRequestDto cmd);
 }

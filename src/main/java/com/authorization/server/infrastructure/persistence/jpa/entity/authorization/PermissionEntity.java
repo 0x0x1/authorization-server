@@ -1,4 +1,4 @@
-package com.authorization.server.infrastructure.persistence.jpa.entity.account;
+package com.authorization.server.infrastructure.persistence.jpa.entity.authorization;
 
 import java.util.UUID;
 import jakarta.persistence.Entity;

@@ -1,9 +1,13 @@
 package com.authorization.server.infrastructure.web.api.contractImpl;
 
+import static com.authorization.server.core.ApplicationConstants.CONFLICT;
 import static com.authorization.server.core.ApplicationConstants.CREATED;
+import static com.authorization.server.core.ApplicationConstants.SIGN_UP_FAILED;
 import static com.authorization.server.core.ApplicationConstants.SIGN_UP_SUCCESS;
+import static com.authorization.server.core.ApplicationConstants.USER_ALREADY_EXISTS;
 
 import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +20,6 @@ import com.authorization.server.infrastructure.web.api.delegator.ApiProcessor;
 import com.authorization.server.core.Result;
 import com.authorization.server.core.I18n;
 import com.authorization.server.infrastructure.web.payload.RegisterRequestDto;
-import com.authorization.server.infrastructure.web.payload.RegisterResponseDto;
 
 @RestController
 @RequestMapping(AccountRegistrationRestDefinition.BASE_PATH)
@@ -28,13 +31,14 @@ public class AccountRegistrationRestImpl implements AccountRegistrationRestDefin
     public AccountRegistrationRestImpl(I18n i18n, ApiProcessor apiProcessor) {
         this.i18n = i18n;
         this.apiProcessor = apiProcessor;
+
     }
 
     @Override
     @PostMapping(REGISTRATION_PATH)
     public ResponseEntity<Result<?>> registerAccount(@RequestBody RegisterRequestDto requestDto, Locale locale) {
-        //validate dto
-        var registerResponseDto = apiProcessor.registerAccount(requestDto); // user registered in the system but disabled
+        //TODO: step validate dto
+        var registerResponseDto = apiProcessor.registerAccount(requestDto);// user registered in the system but disabled
         var location = apiProcessor.getResourceLocation(registerResponseDto);
         var localMessage = i18n.getMessage(SIGN_UP_SUCCESS, locale);
 

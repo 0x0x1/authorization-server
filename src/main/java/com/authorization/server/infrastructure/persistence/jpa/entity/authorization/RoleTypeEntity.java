@@ -1,4 +1,4 @@
-package com.authorization.server.infrastructure.persistence.jpa.entity.account;
+package com.authorization.server.infrastructure.persistence.jpa.entity.authorization;
 
 import java.util.Set;
 import java.util.UUID;
@@ -10,7 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
-import com.authorization.server.domain.account.Permission;
+import com.authorization.server.identity.Permission;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,5 +46,9 @@ public class RoleTypeEntity {
 
     private Boolean hasPermission(Permission permission) {
         return permissionEntities.contains(permission);
+    }
+
+    public void setPermissions(Set<PermissionEntity> permissions) {
+        this.permissionEntities = permissions;
     }
 }

@@ -1,4 +1,4 @@
-package com.authorization.server.infrastructure.persistence.jpa.entity.account;
+package com.authorization.server.infrastructure.persistence.jpa.entity.identity;
 
 import java.util.Set;
 import java.util.UUID;
@@ -11,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+
+import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.RoleTypeEntity;
 
 import lombok.Getter;
 import lombok.Setter;

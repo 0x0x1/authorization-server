@@ -5,12 +5,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.authorization.server.domain.account.RoleType;
-import com.authorization.server.infrastructure.persistence.jpa.entity.account.PermissionEntity;
-import com.authorization.server.infrastructure.persistence.jpa.entity.account.RoleTypeEntity;
+import com.authorization.server.identity.Permission;
+import com.authorization.server.identity.Role;
+import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.PermissionEntity;
+import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.RoleTypeEntity;
 
 @Component
-public class RoleTypeToRoleTypeEntityConverter implements Converter<RoleType, RoleTypeEntity> {
+public class RoleTypeToRoleTypeEntityConverter implements Converter<Role, RoleTypeEntity> {
 
     private final PermissionToPermissionEntityConverter permissionMapper;
 
@@ -19,23 +20,30 @@ public class RoleTypeToRoleTypeEntityConverter implements Converter<RoleType, Ro
     }
 
     @Override
-    public RoleTypeEntity convert(RoleType fromSource) {
+    public RoleTypeEntity toEntity(Role fromSource) {
         if (fromSource == null) {
             throw new IllegalArgumentException("RoleType cannot be null");
         }
 
-        Set<PermissionEntity> permissionEntities = fromSource.getPermissions().stream()
-                .map(permissionMapper::convert).collect(Collectors.toSet());
+        Set<PermissionEntity> permissionEntities = fromSource.permissions().stream()
+                .map(permissionMapper::toEntity).collect(Collectors.toSet());
 
         var roleTypeEntity = new RoleTypeEntity();
         roleTypeEntity.setPermissionEntities(permissionEntities);
-        roleTypeEntity.setRoleTypeName(fromSource.getRoleTypeName());
+        roleTypeEntity.setRoleTypeName(fromSource.displayName());
 
         return roleTypeEntity;
     }
 
     @Override
-    public RoleType reverse(RoleTypeEntity fromTarget) {
-        throw new UnsupportedOperationException();
+    public Role toDomain(RoleTypeEntity fromTarget) {
+        if (fromTarget == null) {
+            throw new IllegalArgumentException("RoleTypeEntity cannot be null");
+        }
+
+        Set<Permission> permissions = fromTarget.getPermissionEntities().stream()
+                .map(permissionMapper::toDomain).collect(Collectors.toSet());
+
+        return new Role(fromTarget.getRoleTypeName(), permissions);
     }
 }

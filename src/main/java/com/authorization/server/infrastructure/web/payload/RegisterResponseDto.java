@@ -2,14 +2,14 @@ package com.authorization.server.infrastructure.web.payload;
 
 import java.util.Set;
 
-import com.authorization.server.domain.account.EmailAddress;
-import com.authorization.server.domain.account.Password;
-import com.authorization.server.domain.account.RoleType;
-import com.authorization.server.domain.account.Username;
+import com.authorization.server.identity.EmailAddress;
+import com.authorization.server.identity.Password;
+import com.authorization.server.identity.Role;
+import com.authorization.server.identity.Username;
 
 public record RegisterResponseDto(
         Username username,
         Password password,
         EmailAddress email,
-        Set<RoleType> role
+        Set<Role> role
 ) { }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.authorization.server.infrastructure.persistence.jpa.contract.PermissionRepository;
 import com.authorization.server.infrastructure.persistence.jpa.contract.RoleTypeRepository;
-import com.authorization.server.infrastructure.persistence.jpa.entity.account.RoleTypeEntity;
+import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.RoleTypeEntity;
 
 import ro.polak.springboot.datafixtures.DataFixture;
 import ro.polak.springboot.datafixtures.DataFixtureSet;
@@ -41,7 +41,6 @@ public class RoleTypeSeed implements DataFixture {
 
     @Override
     public void load() {
-        System.out.println(permissionRepo.findAll());
         var admin = new RoleTypeEntity();
         admin.setRoleTypeName("ADMIN");
         admin.setPermissionEntities(new HashSet<>(permissionRepo.findAll()));

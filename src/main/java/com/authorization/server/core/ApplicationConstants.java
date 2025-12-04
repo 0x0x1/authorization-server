@@ -46,6 +46,8 @@ public final class ApplicationConstants {
 
     public final static String USER_LOGIN_FAILED = "app.user.login.failed";
 
+    public final static String USER_ALREADY_EXISTS = "app.user.already.exists";
+
 
 
 
@@ -54,6 +56,8 @@ public final class ApplicationConstants {
 
     /** HTTP status code for resource creation success. */
     public final static int CREATED = 201;
+
+    public final static int CONFLICT = 409;
 
     /** HTTP status code for bad request. */
     public final static int BAD_REQUEST = 400;

@@ -5,18 +5,15 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.authorization.server.domain.account.Account;
-import com.authorization.server.domain.account.AccountState;
-import com.authorization.server.domain.account.EmailAddress;
-import com.authorization.server.domain.account.Permission;
-import com.authorization.server.domain.account.RoleType;
-import com.authorization.server.domain.account.Username;
-import com.authorization.server.infrastructure.persistence.jpa.entity.account.AccountEntity;
-import com.authorization.server.infrastructure.persistence.jpa.entity.account.AccountStateEntity;
-import com.authorization.server.infrastructure.persistence.jpa.entity.account.EmailAddressEntity;
-import com.authorization.server.infrastructure.persistence.jpa.entity.account.PasswordEntity;
-import com.authorization.server.infrastructure.persistence.jpa.entity.account.RoleTypeEntity;
-import com.authorization.server.infrastructure.persistence.jpa.entity.account.UsernameEntity;
+import com.authorization.server.identity.Account;
+import com.authorization.server.identity.Permission;
+import com.authorization.server.identity.Role;
+import com.authorization.server.infrastructure.persistence.jpa.entity.identity.AccountEntity;
+import com.authorization.server.infrastructure.persistence.jpa.entity.identity.AccountStateEntity;
+import com.authorization.server.infrastructure.persistence.jpa.entity.identity.EmailAddressEntity;
+import com.authorization.server.infrastructure.persistence.jpa.entity.identity.PasswordEntity;
+import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.RoleTypeEntity;
+import com.authorization.server.infrastructure.persistence.jpa.entity.identity.UsernameEntity;
 
 @Component
 public class AccountToAccountEntityConverter implements Converter<Account, AccountEntity> {
@@ -28,36 +25,36 @@ public class AccountToAccountEntityConverter implements Converter<Account, Accou
     }
 
     @Override
-    public AccountEntity convert(Account fromSource) {
-        System.out.println(fromSource);
-        if (fromSource == null || fromSource.getAccountState() == null) {
-            throw new IllegalArgumentException("Account and it's state cannot be null");
-        }
-
-        var accountStateEntity = new AccountStateEntity();
-        accountStateEntity.setAccountStatus(fromSource.getAccountState().getAccountStatus());
-        accountStateEntity.setActivatedAt(fromSource.getAccountState().getActivatedAt());
-
-        Set<RoleTypeEntity> roleTypeEntities = fromSource.getRoleTypes().stream()
-                .map(roleTypeMapper::convert)
-                .collect(Collectors.toSet());
-
-        var accountEntity = new AccountEntity();
-        accountEntity.setUsername(new UsernameEntity(fromSource.getUsername().getUsername()));
-        accountEntity.setPassword(new PasswordEntity(fromSource.getPassword().getPassword()));
-        accountEntity.setEmail(new EmailAddressEntity(fromSource.getEmail().getEmailAddress()));
-        accountEntity.setAccountStateEntity(accountStateEntity);
-        accountEntity.setRoleTypeEntities(roleTypeEntities);
-        accountEntity.setIsAccountEnabled(false);
-        accountEntity.setIsAccountPasswordExpired(false);
-
-        return accountEntity;
+    public AccountEntity toEntity(Account fromSource) {
+//        if (fromSource == null || fromSource.getAccountState() == null) {
+//            throw new IllegalArgumentException("Account and it's state cannot be null");
+//        }
+//
+//        var accountStateEntity = new AccountStateEntity();
+//        accountStateEntity.setAccountLifecycleStatus(fromSource.getAccountState().getAccountStatus());
+//        accountStateEntity.setActivatedAt(fromSource.getAccountState().getActivatedAt());
+//
+//        Set<RoleTypeEntity> roleTypeEntities = fromSource.getRoles().stream()
+//                .map(roleTypeMapper::convert)
+//                .collect(Collectors.toSet());
+//
+//        var accountEntity = new AccountEntity();
+//        accountEntity.setUsername(new UsernameEntity(fromSource.getUsername().value()));
+//        accountEntity.setPassword(new PasswordEntity(fromSource.getPassword().value()));
+//        accountEntity.setEmail(new EmailAddressEntity(fromSource.getEmailAddress().emailAddress()));
+//        accountEntity.setAccountStateEntity(accountStateEntity);
+//        accountEntity.setRoleTypeEntities(roleTypeEntities);
+//        accountEntity.setIsAccountEnabled(false);
+//        accountEntity.setIsAccountPasswordExpired(false);
+//
+//        return accountEntity;
+        return null;
     }
 
     @Override
-    public Account reverse(AccountEntity fromTarget) {
+    public Account toDomain(AccountEntity fromTarget) {
 
-        Set<RoleType> roleTypes = fromTarget.getRoleTypeEntities().stream()
+        Set<Role> roles = fromTarget.getRoleTypeEntities().stream()
                 .map(roleTypeEntity -> {
                     // Get permissions for THIS roleTypes type
                     Set<Permission> permissions = roleTypeEntity.getPermissionEntities().stream()
@@ -68,21 +65,23 @@ public class AccountToAccountEntityConverter implements Converter<Account, Accou
                             .collect(Collectors.toSet());
 
                     // Create RoleType with its permissions
-                    return new RoleType(roleTypeEntity.getRoleTypeName(), null);
+                    return new Role(roleTypeEntity.getRoleTypeName(), null);
                 })
                 .collect(Collectors.toSet());
 
-        var accountState = new AccountState(fromTarget.getAccountStateEntity().getAccountStatus(),
-                fromTarget.getAccountStateEntity().getActivatedAt());
-        PasswordEntity password = fromTarget.getPassword();
+//        var accountState = new AccountState(fromTarget.getAccountStateEntity().getAccountLifecycleStatus(),
+//                fromTarget.getAccountStateEntity().getActivatedAt());
+//        PasswordEntity password = fromTarget.getPassword();
 
-        return Account.builder()
-                .id(fromTarget.getId())
-                .username(new Username(fromTarget.getUsername().getUsername()))
-                .email(new EmailAddress(fromTarget.getEmail().getEmail()))
-                .accountState(accountState)// or whatever properties Account has
-                .roleTypes(roleTypes)
-                .build();
+//        return Account.builder()
+//                .id(fromTarget.getId())
+//                .username(fromTarget.getUsername().getUsername())
+//                .emailAddress(fromTarget.getEmail().getEmail())
+//                .accountState(accountState)// or whatever properties Account has
+//                .roleTypes(roleTypes)
+//                .build();
+
+        return null;
 
     }
 }
