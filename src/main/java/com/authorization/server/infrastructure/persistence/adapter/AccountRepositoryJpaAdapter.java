@@ -29,14 +29,17 @@ public class AccountRepositoryJpaAdapter implements AccountRepository {
     }
 
     @Override
-    public Optional<Account> save(Account account) {
-//        try {
-//            AccountEntity accountEntity = jpa.save(accountConverter.toEntity(account));
-//            jpa.flush();
-//            return Optional.of(accountConverter.toDomain(accountEntity));
-//        } catch (DataIntegrityViolationException e) {
-//            throw new AccountPersistentException(e.getMessage());
-//        }
-        return Optional.empty();
+    public Optional<AccountEntity> save(AccountEntity account) {
+        try {
+            jpa.save(account);
+            jpa.flush();
+            return Optional.of(jpa.save(account));
+        } catch (DataIntegrityViolationException e) {
+            throw new AccountPersistentException(e.getMessage());
+        }
+    }
+
+    public long count() {
+        return jpa.count();
     }
 }

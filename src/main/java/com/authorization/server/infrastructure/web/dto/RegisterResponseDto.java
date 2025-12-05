@@ -1,4 +1,4 @@
-package com.authorization.server.infrastructure.web.payload;
+package com.authorization.server.infrastructure.web.dto;
 
 import java.util.Set;
 

@@ -9,8 +9,8 @@ import com.authorization.server.core.validation.RegisterAccountUseCaseValidator;
 import com.authorization.server.identity.AccountRepository;
 import com.authorization.server.identity.Role;
 import com.authorization.server.infrastructure.persistence.converter.Converter;
-import com.authorization.server.infrastructure.persistence.jpa.contract.RoleTypeRepository;
-import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.RoleTypeEntity;
+import com.authorization.server.infrastructure.persistence.jpa.contract.RoleRepository;
+import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.RoleEntity;
 
 @Configuration
 public class ApplicationConfig {
@@ -18,8 +18,8 @@ public class ApplicationConfig {
     @Bean
     public RegisterAccountUseCase registerAccountUseCase(AccountRepository accountRepository,
                                                          RegisterAccountUseCaseValidator accountValidator,
-                                                         PasswordHashingService passwordEncoder, RoleTypeRepository roleTypeRepository, Converter<Role, RoleTypeEntity> roleTypeMapper) {
-        return new RegisterAccountUseCase(accountRepository, accountValidator, passwordEncoder, roleTypeRepository, roleTypeMapper);
+                                                         PasswordHashingService passwordEncoder, RoleRepository roleRepository) {
+        return new RegisterAccountUseCase(accountRepository, accountValidator, passwordEncoder, roleRepository);
     }
 
 }

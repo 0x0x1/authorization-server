@@ -9,20 +9,9 @@ import com.authorization.server.identity.Account;
 import com.authorization.server.identity.Permission;
 import com.authorization.server.identity.Role;
 import com.authorization.server.infrastructure.persistence.jpa.entity.identity.AccountEntity;
-import com.authorization.server.infrastructure.persistence.jpa.entity.identity.AccountStateEntity;
-import com.authorization.server.infrastructure.persistence.jpa.entity.identity.EmailAddressEntity;
-import com.authorization.server.infrastructure.persistence.jpa.entity.identity.PasswordEntity;
-import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.RoleTypeEntity;
-import com.authorization.server.infrastructure.persistence.jpa.entity.identity.UsernameEntity;
 
 @Component
 public class AccountToAccountEntityConverter implements Converter<Account, AccountEntity> {
-
-    private final RoleTypeToRoleTypeEntityConverter roleTypeMapper;
-
-    public AccountToAccountEntityConverter(RoleTypeToRoleTypeEntityConverter roleTypeMapper) {
-        this.roleTypeMapper = roleTypeMapper;
-    }
 
     @Override
     public AccountEntity toEntity(Account fromSource) {
@@ -54,18 +43,18 @@ public class AccountToAccountEntityConverter implements Converter<Account, Accou
     @Override
     public Account toDomain(AccountEntity fromTarget) {
 
-        Set<Role> roles = fromTarget.getRoleTypeEntities().stream()
+        Set<Role> roles = fromTarget.getRoleEntities().stream()
                 .map(roleTypeEntity -> {
                     // Get permissions for THIS roleTypes type
                     Set<Permission> permissions = roleTypeEntity.getPermissionEntities().stream()
                             .map(permissionEntity -> new Permission(
-                                    permissionEntity.getPermissionName(),
+                                    permissionEntity.getDisplayName(),
                                     permissionEntity.getDescription()
                             ))
                             .collect(Collectors.toSet());
 
                     // Create RoleType with its permissions
-                    return new Role(roleTypeEntity.getRoleTypeName(), null);
+                    return new Role(roleTypeEntity.getDisplayName(), null);
                 })
                 .collect(Collectors.toSet());
 

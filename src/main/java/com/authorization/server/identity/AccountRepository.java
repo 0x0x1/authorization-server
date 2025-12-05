@@ -2,6 +2,8 @@ package com.authorization.server.identity;
 
 import java.util.Optional;
 
+import com.authorization.server.infrastructure.persistence.jpa.entity.identity.AccountEntity;
+
 /*
  * Domain-Persistence boundary. Describes application capability on domain level.
  */
@@ -15,5 +17,7 @@ public interface AccountRepository {
     /*
      * Save an account object to the table.
      */
-    Optional<Account> save(Account account);
+    Optional<AccountEntity> save(AccountEntity account);
+
+    long count();
 }

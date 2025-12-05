@@ -1,20 +1,22 @@
 package com.authorization.server.infrastructure.persistence.jpa.entity.identity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
 import jakarta.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @Embeddable
-@Getter
 @AllArgsConstructor
-public class UsernameEntity {
+public class CredentialsEntity {
 
     @NotNull
-    @Column(name = "USERNAME", nullable = false, unique = true)
-    private String username;
+    @Embedded
+    private UsernameEntity username;
 
-    public UsernameEntity() {}
+    @NotNull
+    @Embedded
+    private PasswordEntity password;
+
+    public CredentialsEntity() {}
 }

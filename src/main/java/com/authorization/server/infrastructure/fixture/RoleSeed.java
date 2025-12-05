@@ -7,8 +7,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.authorization.server.infrastructure.persistence.jpa.contract.PermissionRepository;
-import com.authorization.server.infrastructure.persistence.jpa.contract.RoleTypeRepository;
-import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.RoleTypeEntity;
+import com.authorization.server.infrastructure.persistence.jpa.contract.RoleRepository;
+import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.RoleEntity;
 
 import ro.polak.springboot.datafixtures.DataFixture;
 import ro.polak.springboot.datafixtures.DataFixtureSet;
@@ -18,12 +18,12 @@ import ro.polak.springboot.datafixtures.DataFixtureSet;
  */
 @Component
 @Order(2)
-public class RoleTypeSeed implements DataFixture {
+public class RoleSeed implements DataFixture {
 
-    private final RoleTypeRepository roleTypeRepo;
+    private final RoleRepository roleTypeRepo;
     private final PermissionRepository permissionRepo;
 
-    public RoleTypeSeed(RoleTypeRepository roleTypeRepo, PermissionRepository permissionRepo) {
+    public RoleSeed(RoleRepository roleTypeRepo, PermissionRepository permissionRepo) {
         this.roleTypeRepo = roleTypeRepo;
         this.permissionRepo = permissionRepo;
     }
@@ -41,15 +41,15 @@ public class RoleTypeSeed implements DataFixture {
 
     @Override
     public void load() {
-        var admin = new RoleTypeEntity();
-        admin.setRoleTypeName("ADMIN");
+        var admin = new RoleEntity();
+        admin.setDisplayName("ADMIN");
         admin.setPermissionEntities(new HashSet<>(permissionRepo.findAll()));
 
-        var manager = new RoleTypeEntity();
-        manager.setRoleTypeName("MANAGER");
-        manager.setPermissionEntities(new HashSet<>(permissionRepo.findAll().stream().filter(p -> !p.getPermissionName().equals("DELETE")).toList()));
+        var manager = new RoleEntity();
+        manager.setDisplayName("MANAGER");
+        manager.setPermissionEntities(new HashSet<>(permissionRepo.findAll().stream().filter(p -> !p.getDisplayName().equals("DELETE")).toList()));
 
-        Set<RoleTypeEntity> seed = Set.of(admin, manager);
+        Set<RoleEntity> seed = Set.of(admin, manager);
         roleTypeRepo.saveAll(seed);
     }
 }

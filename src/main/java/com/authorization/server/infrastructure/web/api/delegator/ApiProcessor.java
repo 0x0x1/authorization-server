@@ -1,15 +1,12 @@
 package com.authorization.server.infrastructure.web.api.delegator;
 
 import java.net.URI;
-import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
 import com.authorization.server.application.usecase.RegisterAccountUseCase;
-import com.authorization.server.identity.Account;
-import com.authorization.server.infrastructure.persistence.converter.Converter;
-import com.authorization.server.infrastructure.web.payload.RegisterRequestDto;
-import com.authorization.server.infrastructure.web.payload.RegisterResponseDto;
+import com.authorization.server.infrastructure.web.dto.RegisterRequestDto;
+import com.authorization.server.infrastructure.web.dto.RegisterResponseDto;
 
 @Component
 public class ApiProcessor {

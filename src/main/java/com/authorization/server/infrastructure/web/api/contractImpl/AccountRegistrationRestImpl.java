@@ -1,13 +1,9 @@
 package com.authorization.server.infrastructure.web.api.contractImpl;
 
-import static com.authorization.server.core.ApplicationConstants.CONFLICT;
 import static com.authorization.server.core.ApplicationConstants.CREATED;
-import static com.authorization.server.core.ApplicationConstants.SIGN_UP_FAILED;
 import static com.authorization.server.core.ApplicationConstants.SIGN_UP_SUCCESS;
-import static com.authorization.server.core.ApplicationConstants.USER_ALREADY_EXISTS;
 
 import java.util.Locale;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +15,7 @@ import com.authorization.server.infrastructure.web.api.contract.AccountRegistrat
 import com.authorization.server.infrastructure.web.api.delegator.ApiProcessor;
 import com.authorization.server.core.Result;
 import com.authorization.server.core.I18n;
-import com.authorization.server.infrastructure.web.payload.RegisterRequestDto;
+import com.authorization.server.infrastructure.web.dto.RegisterRequestDto;
 
 @RestController
 @RequestMapping(AccountRegistrationRestDefinition.BASE_PATH)

@@ -21,14 +21,14 @@ public class PermissionEntity {
     @GeneratedValue
     private UUID id;
 
-    private String permissionName;
+    private String displayName;
     private String description;
 
     @Override
     public String toString() {
         return "PermissionEntity{" +
                 "id=" + id +
-                ", permissionName='" + permissionName + '\'' +
+                ", permissionName='" + displayName + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }

@@ -13,7 +13,7 @@ import com.authorization.server.infrastructure.persistence.jpa.entity.authorizat
 @Repository
 public interface PermissionRepository extends JpaRepository<PermissionEntity, UUID> {
 
-    @Query("SELECT p FROM PermissionEntity p WHERE p.permissionName IN :names")
+    @Query("SELECT p FROM PermissionEntity p WHERE p.displayName IN :names")
     Set<PermissionEntity> findAllByNameIN(Collection<String> names);
 
 
