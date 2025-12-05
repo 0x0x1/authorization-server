@@ -40,13 +40,17 @@ public class RoleEntity {
     private String displayName;
 
     @NotNull
+    @Column(name = "DESCRIPTION", nullable = false)
+    private String description;
+
+    @NotNull
     @ManyToMany
     @JoinTable(
             name = "roles_permissions",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
-    private Set<PermissionEntity> permissionEntities;
+    private Collection<PermissionEntity> permissionEntities;
 
     public RoleEntity() {}
 

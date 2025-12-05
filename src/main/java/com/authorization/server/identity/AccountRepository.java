@@ -17,7 +17,7 @@ public interface AccountRepository {
     /*
      * Save an account object to the table.
      */
-    Optional<AccountEntity> save(AccountEntity account);
+    Optional<Account> save(Account account);
 
     long count();
 }

@@ -5,8 +5,12 @@ import jakarta.persistence.Embedded;
 import jakarta.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @Embeddable
+@Setter
+@Getter
 @AllArgsConstructor
 public class CredentialsEntity {
 

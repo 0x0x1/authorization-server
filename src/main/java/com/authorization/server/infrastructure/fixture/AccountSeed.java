@@ -2,14 +2,22 @@ package com.authorization.server.infrastructure.fixture;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
+import org.apache.catalina.User;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.authorization.server.identity.Account;
 import com.authorization.server.identity.AccountLifecycleStatus;
 import com.authorization.server.identity.AccountLockStatus;
 import com.authorization.server.identity.AccountRepository;
+import com.authorization.server.identity.Credentials;
+import com.authorization.server.identity.EmailAddress;
+import com.authorization.server.identity.Password;
+import com.authorization.server.identity.Username;
 import com.authorization.server.infrastructure.persistence.jpa.contract.PermissionRepository;
 import com.authorization.server.infrastructure.persistence.jpa.contract.RoleRepository;
 import com.authorization.server.infrastructure.persistence.jpa.entity.identity.AccountEntity;
@@ -48,19 +56,15 @@ public class AccountSeed implements DataFixture {
     @Override
     public void load() {
 
-        var username = new UsernameEntity("admin");
-        var password = new PasswordEntity("password");
-        var credentials = new CredentialsEntity(username, password);
+        UUID adminRoleId = roleRepo.findByDisplayName("admin").getId();
+        UUID managerRoleId = roleRepo.findByDisplayName("manager").getId();
 
-        var accountEntity = new AccountEntity();
-        accountEntity.setCredentials(credentials);
-        accountEntity.setRoleEntities(roleRepo.findAll());
-        accountEntity.setEmail(new EmailAddressEntity("test@test.com"));
-        accountEntity.setLockStatus(AccountLockStatus.UNLOCKED);
-        accountEntity.setLifecycleStatus(AccountLifecycleStatus.ENABLED);
-        accountEntity.setLastStatusChangeAt(Instant.now());
+        var account = Account.builder()
+                .credentials(new Credentials(new Username("admin"), new Password("root")))
+                .emailAddress(new EmailAddress("test@test.com"))
+                .roleIds(List.of(adminRoleId, managerRoleId))
+                .build();
 
-        Collection<AccountEntity> accountEntities = Set.of(accountEntity);
-        accountRepo.save(accountEntity);
+        accountRepo.save(account);
     }
 }

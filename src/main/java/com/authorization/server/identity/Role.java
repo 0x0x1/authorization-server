@@ -1,27 +1,34 @@
 package com.authorization.server.identity;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
 /*
  * Represents the role of the logged in application user.
  */
-public record Role(String displayName, Set<Permission> permissions) {
+public record Role(String displayName, String description, Collection<Permission> permissions) {
 
     /*
      * Compact constructor enforcing rules.
      */
     public Role {
         Objects.requireNonNull(displayName, "field displayName of role must not be null");
+        Objects.requireNonNull(description, "field description of role must not be null");
         Objects.requireNonNull(permissions, "field permissions of role must not be null");
         if (displayName.isBlank()) {
             throw new IllegalArgumentException("displayName of role cannot be blank");
+        }
+
+        if (description.isBlank()) {
+            throw new IllegalArgumentException("description of role cannot be blank");
         }
 
         permissions.forEach(Objects::requireNonNull);
         permissions = Set.copyOf(permissions);
 
         displayName = displayName.trim().toLowerCase();
+        description = description.trim().toLowerCase();
     }
 
     /*

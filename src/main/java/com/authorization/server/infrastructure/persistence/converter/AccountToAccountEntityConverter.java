@@ -1,76 +1,119 @@
 package com.authorization.server.infrastructure.persistence.converter;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
 import com.authorization.server.identity.Account;
-import com.authorization.server.identity.Permission;
-import com.authorization.server.identity.Role;
+import com.authorization.server.identity.Credentials;
+import com.authorization.server.identity.EmailAddress;
+import com.authorization.server.infrastructure.persistence.jpa.contract.RoleRepository;
+import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.RoleEntity;
 import com.authorization.server.infrastructure.persistence.jpa.entity.identity.AccountEntity;
+import com.authorization.server.infrastructure.persistence.jpa.entity.identity.CredentialsEntity;
+import com.authorization.server.infrastructure.persistence.jpa.entity.identity.EmailAddressEntity;
 
+/**
+ * Converts between the domain {@link Account} value object and its
+ * persistence-side representation {@link AccountEntity}.
+ *
+ * <p>This class belongs to the infrastructure layer, and it ensures that the
+ * domain does not depend on JPA annotations or database-specific constraints.</p>
+ *
+ * <p>All invariant checks remain in the domain object. This converter is
+ * responsible only for mapping values, not validating business rules.</p>
+ */
 @Component
 public class AccountToAccountEntityConverter implements Converter<Account, AccountEntity> {
 
-    @Override
-    public AccountEntity toEntity(Account fromSource) {
-//        if (fromSource == null || fromSource.getAccountState() == null) {
-//            throw new IllegalArgumentException("Account and it's state cannot be null");
-//        }
-//
-//        var accountStateEntity = new AccountStateEntity();
-//        accountStateEntity.setAccountLifecycleStatus(fromSource.getAccountState().getAccountStatus());
-//        accountStateEntity.setActivatedAt(fromSource.getAccountState().getActivatedAt());
-//
-//        Set<RoleTypeEntity> roleTypeEntities = fromSource.getRoles().stream()
-//                .map(roleTypeMapper::convert)
-//                .collect(Collectors.toSet());
-//
-//        var accountEntity = new AccountEntity();
-//        accountEntity.setUsername(new UsernameEntity(fromSource.getUsername().value()));
-//        accountEntity.setPassword(new PasswordEntity(fromSource.getPassword().value()));
-//        accountEntity.setEmail(new EmailAddressEntity(fromSource.getEmailAddress().emailAddress()));
-//        accountEntity.setAccountStateEntity(accountStateEntity);
-//        accountEntity.setRoleTypeEntities(roleTypeEntities);
-//        accountEntity.setIsAccountEnabled(false);
-//        accountEntity.setIsAccountPasswordExpired(false);
-//
-//        return accountEntity;
-        return null;
+    private final RoleRepository roleRepository;
+    private final CredentialsConverter credentialsConverter;
+    private final EmailAddressConverter emailAddressConverter;
+
+    /**
+     * Creates a new {@code AccountToAccountEntityConverter} with the required
+     * infrastructure components used to translate domain {@code Account} aggregates
+     * into their persistence {@code AccountEntity} counterparts.
+     *
+     * @param roleRepository        the repository used to resolve and attach
+     *                              persisted {@code RoleEntity} instances when converting;
+     *                              must not be {@code null}
+     * @param credentialsConverter  the converter responsible for translating
+     *                              {@code Credentials} value objects to their persistence
+     *                              representation; must not be {@code null}
+     * @param emailAddressConverter the converter responsible for translating
+     *                              {@code EmailAddress} value objects to their persistence
+     *                              representation; must not be {@code null}
+     */
+    public AccountToAccountEntityConverter(RoleRepository roleRepository, CredentialsConverter credentialsConverter, EmailAddressConverter emailAddressConverter) {
+        this.roleRepository = roleRepository;
+        this.credentialsConverter = credentialsConverter;
+        this.emailAddressConverter = emailAddressConverter;
     }
 
+    /**
+     * Converts a domain {@link Account} value object into its JPA
+     * persistence representation {@link AccountEntity}.
+     *
+     * <p>A {@code null} input is not allowed. Null-checking is performed at the
+     * boundary since conversion happens in the infrastructure layer, outside of
+     * domain control.</p>
+     *
+     * @param fromSource the domain Account aggregate root object
+     * @return a new {@link AccountEntity} containing the domain representation
+     * @throws NullPointerException if {@code fromSource} is null
+     */
+    @Override
+    public AccountEntity toEntity(Account fromSource) {
+        Objects.requireNonNull(fromSource);
+
+        CredentialsEntity credentialsEntity = credentialsConverter.toEntity(fromSource.getCredentials());
+        EmailAddressEntity emailAddressEntity = emailAddressConverter.toEntity(fromSource.getEmailAddress());
+
+        List<RoleEntity> roleEntities = fromSource.getRoleIds().stream()
+                .map(roleRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get).toList();
+
+        AccountEntity accountEntity = new AccountEntity();
+        accountEntity.setCredentials(credentialsEntity);
+        accountEntity.setEmail(emailAddressEntity);
+        accountEntity.setRoleEntities(roleEntities);
+        accountEntity.setLifecycleStatus(fromSource.getAccountLifecycleStatus());
+        accountEntity.setLockStatus(fromSource.getAccountLockStatus());
+        accountEntity.setLastStatusChangeAt(fromSource.getLastStatusChangedAt());
+
+        return accountEntity;
+    }
+
+    /**
+     * Converts a persistence {@link AccountEntity} into the domain value object
+     * {@link Account}. Domain constructor invariants are enforced inside the
+     * {@code Username} class itself.
+     *
+     * <p>A {@code null} input is not allowed. Null-checking here protects the
+     * domain from receiving invalid or incomplete data from persistence.</p>
+     *
+     * @param fromTarget the persistence-side Account entity object
+     * @return a domain {@link Account} instance created from the stored object
+     * @throws NullPointerException if {@code fromTarget} is null
+     */
     @Override
     public Account toDomain(AccountEntity fromTarget) {
+        Objects.requireNonNull(fromTarget);
 
-        Set<Role> roles = fromTarget.getRoleEntities().stream()
-                .map(roleTypeEntity -> {
-                    // Get permissions for THIS roleTypes type
-                    Set<Permission> permissions = roleTypeEntity.getPermissionEntities().stream()
-                            .map(permissionEntity -> new Permission(
-                                    permissionEntity.getDisplayName(),
-                                    permissionEntity.getDescription()
-                            ))
-                            .collect(Collectors.toSet());
+        Credentials credentials = credentialsConverter.toDomain(fromTarget.getCredentials());
+        EmailAddress emailAddress = emailAddressConverter.toDomain(fromTarget.getEmail());
+        List<UUID> rolesId = fromTarget.getRoleEntities().stream().map(RoleEntity::getId).toList();
 
-                    // Create RoleType with its permissions
-                    return new Role(roleTypeEntity.getDisplayName(), null);
-                })
-                .collect(Collectors.toSet());
-
-//        var accountState = new AccountState(fromTarget.getAccountStateEntity().getAccountLifecycleStatus(),
-//                fromTarget.getAccountStateEntity().getActivatedAt());
-//        PasswordEntity password = fromTarget.getPassword();
-
-//        return Account.builder()
-//                .id(fromTarget.getId())
-//                .username(fromTarget.getUsername().getUsername())
-//                .emailAddress(fromTarget.getEmail().getEmail())
-//                .accountState(accountState)// or whatever properties Account has
-//                .roleTypes(roleTypes)
-//                .build();
-
-        return null;
+        return Account.builder()
+                .credentials(credentials)
+                .emailAddress(emailAddress)
+                .roleIds(rolesId)
+                .build();
 
     }
 }

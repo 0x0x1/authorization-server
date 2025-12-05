@@ -42,11 +42,13 @@ public class RoleSeed implements DataFixture {
     @Override
     public void load() {
         var admin = new RoleEntity();
-        admin.setDisplayName("ADMIN");
+        admin.setDisplayName("admin");
+        admin.setDescription("Administrator role.");
         admin.setPermissionEntities(new HashSet<>(permissionRepo.findAll()));
 
         var manager = new RoleEntity();
-        manager.setDisplayName("MANAGER");
+        manager.setDisplayName("manager");
+        manager.setDescription("Manager role.");
         manager.setPermissionEntities(new HashSet<>(permissionRepo.findAll().stream().filter(p -> !p.getDisplayName().equals("DELETE")).toList()));
 
         Set<RoleEntity> seed = Set.of(admin, manager);

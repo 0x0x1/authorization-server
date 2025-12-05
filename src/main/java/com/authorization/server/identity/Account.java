@@ -3,8 +3,10 @@ package com.authorization.server.identity;
 import static com.authorization.server.identity.AccountUtil.generateUUIDv7;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -174,7 +176,7 @@ public class Account {
     public static class AccountBuilder {
         private Credentials credentials;
         private EmailAddress emailAddress;
-        private Set<UUID> roleIds;
+        private Collection<UUID> roleIds;
 
         public AccountBuilder credentials(Credentials credentials) {
             this.credentials = credentials;
@@ -184,7 +186,7 @@ public class Account {
             this.emailAddress = emailAddress;
             return this;
         }
-        public AccountBuilder roleIds(Set<UUID> roleIds) {
+        public AccountBuilder roleIds(List<UUID> roleIds) {
             this.roleIds = roleIds;
             return this;
         }

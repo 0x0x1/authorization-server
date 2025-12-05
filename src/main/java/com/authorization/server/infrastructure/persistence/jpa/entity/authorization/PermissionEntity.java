@@ -1,9 +1,11 @@
 package com.authorization.server.infrastructure.persistence.jpa.entity.authorization;
 
 import java.util.UUID;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +23,12 @@ public class PermissionEntity {
     @GeneratedValue
     private UUID id;
 
+    @NotNull
+    @Column(name = "DISPLAY_NAME", nullable = false)
     private String displayName;
+
+    @NotNull
+    @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
     @Override

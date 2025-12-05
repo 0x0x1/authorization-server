@@ -1,11 +1,12 @@
 package com.authorization.server.identity;
 
 import java.util.Objects;
+import java.util.UUID;
 
 /*
  * Represent the permission a logged-in user has.
  */
-public record Permission (String displayName, String description) {
+public record Permission (UUID permissionId, String displayName, String description) {
 
     /*
      * Compact constructor enforcing rules.
