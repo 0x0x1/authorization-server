@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
+import com.authorization.server.application.port.outbound.EntityConverter;
 import com.authorization.server.identity.Credentials;
 import com.authorization.server.infrastructure.persistence.jpa.entity.identity.CredentialsEntity;
 
@@ -18,10 +19,10 @@ import com.authorization.server.infrastructure.persistence.jpa.entity.identity.C
  * responsible only for mapping values, not validating business rules.</p>
  */
 @Component
-public class CredentialsConverter implements Converter<Credentials, CredentialsEntity> {
+public class CredentialsEntityConverter implements EntityConverter<Credentials, CredentialsEntity> {
 
-    private final UsernameConverter usernameConverter;
-    private final PasswordConverter passwordConverter;
+    private final UsernameEntityConverter usernameConverter;
+    private final PasswordEntityConverter passwordConverter;
 
     /**
      * Creates a new {@code CredentialsConverter} with the required component
@@ -34,7 +35,7 @@ public class CredentialsConverter implements Converter<Credentials, CredentialsE
      *                          value objects to and from their persistence entities;
      *                          must not be {@code null}
      */
-    public CredentialsConverter(UsernameConverter usernameConverter, PasswordConverter passwordConverter) {
+    public CredentialsEntityConverter(UsernameEntityConverter usernameConverter, PasswordEntityConverter passwordConverter) {
         this.usernameConverter = usernameConverter;
         this.passwordConverter = passwordConverter;
     }

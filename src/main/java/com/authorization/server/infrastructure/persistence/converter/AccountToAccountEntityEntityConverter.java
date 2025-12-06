@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
+import com.authorization.server.application.port.outbound.EntityConverter;
 import com.authorization.server.identity.Account;
 import com.authorization.server.identity.Credentials;
 import com.authorization.server.identity.EmailAddress;
@@ -27,11 +28,11 @@ import com.authorization.server.infrastructure.persistence.jpa.entity.identity.E
  * responsible only for mapping values, not validating business rules.</p>
  */
 @Component
-public class AccountToAccountEntityConverter implements Converter<Account, AccountEntity> {
+public class AccountToAccountEntityEntityConverter implements EntityConverter<Account, AccountEntity> {
 
     private final RoleRepository roleRepository;
-    private final CredentialsConverter credentialsConverter;
-    private final EmailAddressConverter emailAddressConverter;
+    private final CredentialsEntityConverter credentialsConverter;
+    private final EmailAddressEntityConverter emailAddressConverter;
 
     /**
      * Creates a new {@code AccountToAccountEntityConverter} with the required
@@ -48,7 +49,7 @@ public class AccountToAccountEntityConverter implements Converter<Account, Accou
      *                              {@code EmailAddress} value objects to their persistence
      *                              representation; must not be {@code null}
      */
-    public AccountToAccountEntityConverter(RoleRepository roleRepository, CredentialsConverter credentialsConverter, EmailAddressConverter emailAddressConverter) {
+    public AccountToAccountEntityEntityConverter(RoleRepository roleRepository, CredentialsEntityConverter credentialsConverter, EmailAddressEntityConverter emailAddressConverter) {
         this.roleRepository = roleRepository;
         this.credentialsConverter = credentialsConverter;
         this.emailAddressConverter = emailAddressConverter;

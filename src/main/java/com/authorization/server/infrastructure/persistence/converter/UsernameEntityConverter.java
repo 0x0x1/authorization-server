@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
+import com.authorization.server.application.port.outbound.EntityConverter;
 import com.authorization.server.identity.Username;
 import com.authorization.server.infrastructure.persistence.jpa.entity.identity.UsernameEntity;
 
@@ -18,7 +19,7 @@ import com.authorization.server.infrastructure.persistence.jpa.entity.identity.U
  * responsible only for mapping values, not validating business rules.</p>
  */
 @Component
-public class UsernameConverter implements Converter<Username, UsernameEntity> {
+public class UsernameEntityConverter implements EntityConverter<Username, UsernameEntity> {
 
     /**
      * Converts a domain {@link Username} value object into its JPA

@@ -1,5 +1,6 @@
-package com.authorization.server.infrastructure.web.dto;
+package com.authorization.server.web.dto;
 
+import java.util.Collection;
 import java.util.Set;
 
 import com.authorization.server.identity.EmailAddress;
@@ -8,8 +9,7 @@ import com.authorization.server.identity.Role;
 import com.authorization.server.identity.Username;
 
 public record RegisterResponseDto(
-        Username username,
-        Password password,
-        EmailAddress email,
-        Set<Role> role
+        String username,
+        String email,
+        Collection<Role> role
 ) { }

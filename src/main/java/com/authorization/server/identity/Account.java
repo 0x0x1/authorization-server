@@ -6,8 +6,6 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import lombok.Getter;
@@ -33,7 +31,7 @@ public class Account {
      */
     private final Credentials credentials;
     private final EmailAddress emailAddress;
-    private final Set<UUID> roleIds;
+    private final Collection<UUID> roleIds;
 
     private Account(AccountBuilder builder) {
         if (builder.credentials == null || builder.emailAddress == null) {
@@ -120,8 +118,8 @@ public class Account {
     /*
      * Returns immutable rolesId set.
      */
-    public Set<UUID> getRoleIds() {
-        return Collections.unmodifiableSet(roleIds);
+    public Collection<UUID> getRoleIds() {
+        return Collections.unmodifiableCollection(roleIds);
     }
 
     /*
@@ -186,7 +184,7 @@ public class Account {
             this.emailAddress = emailAddress;
             return this;
         }
-        public AccountBuilder roleIds(List<UUID> roleIds) {
+        public AccountBuilder roleIds(Collection<UUID> roleIds) {
             this.roleIds = roleIds;
             return this;
         }

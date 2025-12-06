@@ -1,4 +1,4 @@
-package com.authorization.server.infrastructure.persistence.converter;
+package com.authorization.server.application.port.outbound;
 
 /**
  * A generic bidirectional converter between a domain model type and its
@@ -11,7 +11,7 @@ package com.authorization.server.infrastructure.persistence.converter;
  * @param <DOMAIN> the domain model type
  * @param <ENTITY> the persistence entity type
  */
-public interface Converter<DOMAIN, ENTITY> {
+public interface EntityConverter<DOMAIN, ENTITY> {
 
     /**
      * Converts a domain model object into its corresponding persistence

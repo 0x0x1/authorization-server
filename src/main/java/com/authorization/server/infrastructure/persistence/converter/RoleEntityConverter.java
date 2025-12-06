@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.authorization.server.application.port.outbound.EntityConverter;
 import com.authorization.server.identity.Permission;
 import com.authorization.server.identity.Role;
 import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.PermissionEntity;
@@ -23,17 +24,17 @@ import com.authorization.server.infrastructure.persistence.jpa.entity.authorizat
  * responsible only for mapping values, not validating business rules.</p>
  */
 @Component
-public class RoleConverter implements Converter<Role, RoleEntity> {
+public class RoleEntityConverter implements EntityConverter<Role, RoleEntity> {
 
-    private final PermissionConverter permissionConverter;
+    private final PermissionEntityConverter permissionConverter;
 
     /**
-     * Constructs a {@link RoleConverter} with the specified {@link PermissionConverter}.
+     * Constructs a {@link RoleEntityConverter} with the specified {@link PermissionEntityConverter}.
      *
      * @param permissionConverter converter to map between {@link Permission} domain objects
      * and {@link PermissionEntity} entities
      */
-    public RoleConverter(PermissionConverter permissionConverter) {
+    public RoleEntityConverter(PermissionEntityConverter permissionConverter) {
         this.permissionConverter = permissionConverter;
     }
 

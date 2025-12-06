@@ -2,7 +2,7 @@ package com.authorization.server.core.validation;
 
 import org.springframework.stereotype.Component;
 
-import com.authorization.server.infrastructure.web.dto.RegisterRequestDto;
+import com.authorization.server.web.dto.RegisterRequestDto;
 
 @Component
 public class RegisterAccountUseCaseValidator extends MessageValidation implements Validator<RegisterRequestDto> {

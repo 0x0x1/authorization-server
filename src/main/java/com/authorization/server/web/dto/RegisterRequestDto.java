@@ -1,11 +1,11 @@
-package com.authorization.server.infrastructure.web.dto;
+package com.authorization.server.web.dto;
 
-import java.util.Set;
+import java.util.Collection;
 
 public record RegisterRequestDto(
         String username,
         String password,
         String email,
-        Set<String> roleTypes
+        Collection<String> roles
 ) {
 }

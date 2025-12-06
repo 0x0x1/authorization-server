@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
+import com.authorization.server.application.port.outbound.EntityConverter;
 import com.authorization.server.identity.Permission;
 import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.PermissionEntity;
 
@@ -18,7 +19,7 @@ import com.authorization.server.infrastructure.persistence.jpa.entity.authorizat
  * responsible only for mapping values, not validating business rules.</p>
  */
 @Component
-public class PermissionConverter implements Converter<Permission, PermissionEntity> {
+public class PermissionEntityConverter implements EntityConverter<Permission, PermissionEntity> {
 
     /**
      * Converts a {@link Permission} domain object into a {@link PermissionEntity} persistence entity.

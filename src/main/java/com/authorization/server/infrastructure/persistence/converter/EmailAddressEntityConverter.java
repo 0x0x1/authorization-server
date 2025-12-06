@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
+import com.authorization.server.application.port.outbound.EntityConverter;
 import com.authorization.server.identity.EmailAddress;
 import com.authorization.server.infrastructure.persistence.jpa.entity.identity.EmailAddressEntity;
 
@@ -18,7 +19,7 @@ import com.authorization.server.infrastructure.persistence.jpa.entity.identity.E
  * responsible only for mapping values, not validating business rules.</p>
  */
 @Component
-public class EmailAddressConverter implements Converter<EmailAddress, EmailAddressEntity> {
+public class EmailAddressEntityConverter implements EntityConverter<EmailAddress, EmailAddressEntity> {
 
     /**
      * Converts a domain {@link EmailAddress} value object into its JPA

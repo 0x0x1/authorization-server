@@ -2,6 +2,7 @@ package com.authorization.server.infrastructure.persistence.converter;
 
 import org.springframework.stereotype.Component;
 
+import com.authorization.server.application.port.outbound.EntityConverter;
 import com.authorization.server.identity.Password;
 import com.authorization.server.infrastructure.persistence.jpa.entity.identity.PasswordEntity;
 
@@ -16,7 +17,7 @@ import com.authorization.server.infrastructure.persistence.jpa.entity.identity.P
  * responsible only for mapping values, not validating business rules.</p>
  */
 @Component
-public class PasswordConverter implements Converter<Password, PasswordEntity> {
+public class PasswordEntityConverter implements EntityConverter<Password, PasswordEntity> {
 
     /**
      * Converts a domain {@link Password} value object into its JPA
