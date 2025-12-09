@@ -2,6 +2,8 @@ package com.authorization.server.web.api.contractImpl;
 
 import static com.authorization.server.core.ApplicationConstants.CREATED;
 import static com.authorization.server.core.ApplicationConstants.SIGN_UP_SUCCESS;
+import static com.authorization.server.core.constant.ApiConstants.BASE_PATH;
+import static com.authorization.server.core.constant.ApiConstants.REGISTRATION_PATH;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -19,7 +21,7 @@ import com.authorization.server.core.I18n;
 import com.authorization.server.web.dto.RegisterRequestDto;
 
 @RestController
-@RequestMapping(AccountRegistrationRestDefinition.BASE_PATH)
+@RequestMapping(BASE_PATH)
 public class AccountRegistrationRestImpl implements AccountRegistrationRestDefinition {
 
     private final I18n i18n;

@@ -1,13 +1,13 @@
 package com.authorization.server.infrastructure.persistence.jpa.entity.authorization;
 
 import java.util.UUID;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
-import lombok.AllArgsConstructor;
+import com.authorization.server.core.constant.EntityConstants;
+import com.authorization.server.infrastructure.persistence.jpa.entity.NamedEntity;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,28 +15,22 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-public class PermissionEntity {
+@Table(name = EntityConstants.PERMISSION, uniqueConstraints = @UniqueConstraint(columnNames = EntityConstants.DISPLAY_NAME))
+public class PermissionEntity extends NamedEntity {
 
-    @Id
-    @GeneratedValue
-    private UUID id;
-
-    @NotNull
-    @Column(name = "DISPLAY_NAME", nullable = false)
-    private String displayName;
-
-    @NotNull
-    @Column(name = "DESCRIPTION", nullable = false)
-    private String description;
+    public PermissionEntity(UUID id, String displayName, String description) {
+        this.setId(id);
+        this.setDisplayName(displayName);
+        this.setDescription(description);
+    }
 
     @Override
     public String toString() {
         return "PermissionEntity{" +
-                "id=" + id +
-                ", permissionName='" + displayName + '\'' +
-                ", description='" + description + '\'' +
+                "id=" + this.getId() +
+                ", permissionName='" + this.getDisplayName() + '\'' +
+                ", description='" + this.getDescription() + '\'' +
                 '}';
     }
 }

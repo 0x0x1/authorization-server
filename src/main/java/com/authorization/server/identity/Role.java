@@ -3,16 +3,18 @@ package com.authorization.server.identity;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 /*
  * Represents the role of the logged in application user.
  */
-public record Role(String displayName, String description, Collection<Permission> permissions) {
+public record Role(UUID roleId, String displayName, String description, Collection<Permission> permissions) {
 
     /*
      * Compact constructor enforcing rules.
      */
     public Role {
+        Objects.requireNonNull(roleId, "field roleId of role must not be null");
         Objects.requireNonNull(displayName, "field displayName of role must not be null");
         Objects.requireNonNull(description, "field description of role must not be null");
         Objects.requireNonNull(permissions, "field permissions of role must not be null");

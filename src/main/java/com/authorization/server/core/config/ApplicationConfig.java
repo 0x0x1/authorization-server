@@ -1,14 +1,17 @@
-package com.authorization.server.application.config;
+package com.authorization.server.core.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import com.authorization.server.application.usecase.RegisterAccountUseCaseImpl;
 import com.authorization.server.identity.AccountRepository;
 import com.authorization.server.infrastructure.persistence.converter.dto.AccountToRegisterResponseDtoDtoConverter;
 import com.authorization.server.infrastructure.persistence.converter.dto.RegisterRequestDtoToAccountDtoConverter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 public class ApplicationConfig {
@@ -27,6 +30,20 @@ public class ApplicationConfig {
         messageSource.setBasenames("classpath:i18n/error", "classpath:i18n/message");
         messageSource.setCacheSeconds(1);
         return messageSource;
+    }
+
+    /**
+     * Configures a customized {@link ObjectMapper} for JSON processing.
+     *
+     * @return a customized {@code ObjectMapper} instance
+     */
+    @Bean
+    public ObjectMapper objectMapper() {
+        return Jackson2ObjectMapperBuilder.json()
+                .indentOutput(true)
+                .serializationInclusion(JsonInclude.Include.NON_EMPTY)
+                .serializationInclusion(JsonInclude.Include.NON_NULL)
+                .build();
     }
 
     @Bean

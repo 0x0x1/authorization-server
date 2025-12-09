@@ -24,7 +24,7 @@ public class Account {
     private final UUID id;
     private AccountLifecycleStatus accountLifecycleStatus;
     private AccountLockStatus accountLockStatus;
-    private Instant lastStatusChangedAt;
+    private Instant createdAt;
 
     /*
      * Inputs during account creation.
@@ -44,7 +44,7 @@ public class Account {
         this.id = generateUUIDv7();
         this.accountLifecycleStatus = AccountLifecycleStatus.ENABLED;
         this.accountLockStatus = AccountLockStatus.UNLOCKED;
-        this.lastStatusChangedAt = Instant.now();
+        this.createdAt = Instant.now();
 
         /*
          * Explicitly defined by the user or system admin.
@@ -79,7 +79,6 @@ public class Account {
             throw new IllegalStateException("Account is already enabled");
         }
         this.accountLifecycleStatus = AccountLifecycleStatus.ENABLED;
-        this.lastStatusChangedAt = Instant.now();
     }
 
     /*
@@ -90,7 +89,6 @@ public class Account {
             throw new IllegalStateException("Account is already disabled");
         }
         this.accountLifecycleStatus = AccountLifecycleStatus.DISABLED;
-        this.lastStatusChangedAt = Instant.now();
     }
 
     /*
@@ -101,7 +99,7 @@ public class Account {
             throw new IllegalStateException("Account is already locked");
         }
         accountLockStatus = AccountLockStatus.LOCKED;
-        this.lastStatusChangedAt = Instant.now();
+        this.createdAt = Instant.now();
     }
 
     /*
@@ -112,7 +110,7 @@ public class Account {
             throw new IllegalStateException("Account is already unlocked");
         }
         accountLockStatus = AccountLockStatus.UNLOCKED;
-        this.lastStatusChangedAt = Instant.now();
+        this.createdAt = Instant.now();
     }
 
     /*

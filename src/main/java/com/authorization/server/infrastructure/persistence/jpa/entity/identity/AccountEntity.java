@@ -2,14 +2,11 @@ package com.authorization.server.infrastructure.persistence.jpa.entity.identity;
 
 import java.time.Instant;
 import java.util.Collection;
-import java.util.UUID;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -20,39 +17,37 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.authorization.server.core.constant.EntityConstants;
 import com.authorization.server.identity.AccountLifecycleStatus;
 import com.authorization.server.identity.AccountLockStatus;
+import com.authorization.server.infrastructure.persistence.jpa.entity.BaseEntity;
 import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.RoleEntity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "ACCOUNT", uniqueConstraints = @UniqueConstraint(columnNames = "EMAIL_ADDRESS" ))
-public class AccountEntity {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+@Table(name = EntityConstants.ACCOUNT, uniqueConstraints = @UniqueConstraint(columnNames = EntityConstants.EMAIL_ADDRESS ))
+public class AccountEntity extends BaseEntity {
 
     @NotNull
-    @Column(name = "LIFECYCLE_STATUS", nullable = false)
+    @Column(name = EntityConstants.LIFECYCLE_STATUS, nullable = false)
     @Enumerated(EnumType.STRING)
     private AccountLifecycleStatus lifecycleStatus;
 
     @NotNull
-    @Column(name = "LOCK_STATUS", nullable = false)
+    @Column(name = EntityConstants.LOCK_STATUS, nullable = false)
     @Enumerated(EnumType.STRING)
     private AccountLockStatus lockStatus;
 
     @NotNull
-    @Column(name = "LAST_STATUS-CHANGED_AT", nullable = false)
+    @Column(name = EntityConstants.CREATED_AT, nullable = false)
     @JdbcTypeCode(SqlTypes.TIMESTAMP_WITH_TIMEZONE)
-    private Instant lastStatusChangeAt;
+    private Instant createdAt;
 
     @NotNull
     @Embedded
@@ -60,15 +55,13 @@ public class AccountEntity {
 
     @NotNull
     @Embedded
-    private EmailAddressEntity email;
+    private EmailAddressEntity emailAddress;
 
     @ManyToMany
     @JoinTable(
-            name = "account_roles",
-            joinColumns = @JoinColumn(name = "account_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            name = EntityConstants.ACCOUNTS_ROLES,
+            joinColumns = @JoinColumn(name = EntityConstants.ACCOUNT_ID),
+            inverseJoinColumns = @JoinColumn(name = EntityConstants.ROLE_ID)
     )
     private Collection<RoleEntity> roleEntities;
-
-    public AccountEntity() {}
 }

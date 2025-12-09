@@ -41,6 +41,7 @@ public class RoleSeed implements DataFixture {
 
     @Override
     public void load() {
+        var test = new RoleEntity();
         var admin = new RoleEntity();
         admin.setDisplayName("admin");
         admin.setDescription("Administrator role.");

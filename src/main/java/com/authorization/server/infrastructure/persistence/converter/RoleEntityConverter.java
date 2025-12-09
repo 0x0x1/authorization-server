@@ -87,6 +87,7 @@ public class RoleEntityConverter implements EntityConverter<Role, RoleEntity> {
                 .collect(Collectors.toSet());
 
         return new Role(
+                fromTarget.getId(),
                 fromTarget.getDisplayName(),
                 fromTarget.getDescription(),
                 permissions

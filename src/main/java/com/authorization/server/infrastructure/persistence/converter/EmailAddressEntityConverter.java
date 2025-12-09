@@ -54,6 +54,6 @@ public class EmailAddressEntityConverter implements EntityConverter<EmailAddress
     @Override
     public EmailAddress toDomain(EmailAddressEntity fromTarget) {
         Objects.requireNonNull(fromTarget);
-        return new EmailAddress(fromTarget.getEmail());
+        return new EmailAddress(fromTarget.getEmailAddress());
     }
 }

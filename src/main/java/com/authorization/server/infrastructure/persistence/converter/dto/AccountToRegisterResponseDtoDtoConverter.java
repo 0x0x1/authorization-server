@@ -28,6 +28,7 @@ public class AccountToRegisterResponseDtoDtoConverter implements DtoConverter<Ac
     public RegisterResponseDto convert(Account account) {
         Objects.requireNonNull(account);
 
+        String accountId = account.getId().toString();
         String username = account.getCredentials().username().username();
         String emailAddress = account.getEmailAddress().emailAddress();
         Collection<Role> roles = account.getRoleIds().stream()
@@ -37,6 +38,6 @@ public class AccountToRegisterResponseDtoDtoConverter implements DtoConverter<Ac
                 .map(roleConverter::toDomain)
                 .toList();
 
-        return new RegisterResponseDto(username, emailAddress, roles);
+        return new RegisterResponseDto(accountId, username, emailAddress, roles);
     }
 }

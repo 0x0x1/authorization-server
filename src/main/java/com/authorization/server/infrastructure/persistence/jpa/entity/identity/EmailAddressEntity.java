@@ -4,17 +4,19 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 
+import com.authorization.server.core.constant.EntityConstants;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Embeddable
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class EmailAddressEntity {
 
     @NotNull
-    @Column(name = "EMAIL_ADDRESS", nullable = false, unique = true)
-    private String email;
-
-    public EmailAddressEntity() {}
+    @Column(name = EntityConstants.EMAIL_ADDRESS, nullable = false, unique = true)
+    private String emailAddress;
 }

@@ -11,6 +11,6 @@ import com.authorization.server.infrastructure.persistence.jpa.entity.identity.E
 
 @Repository
 public interface AccountRepositoryJpa extends JpaRepository<AccountEntity, UUID> {
-    Optional<AccountEntity> findByEmail(EmailAddressEntity email);
+    Optional<AccountEntity> findByEmailAddress(EmailAddressEntity email);
 
 }

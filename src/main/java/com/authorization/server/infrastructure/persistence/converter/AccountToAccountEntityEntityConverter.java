@@ -81,11 +81,11 @@ public class AccountToAccountEntityEntityConverter implements EntityConverter<Ac
 
         AccountEntity accountEntity = new AccountEntity();
         accountEntity.setCredentials(credentialsEntity);
-        accountEntity.setEmail(emailAddressEntity);
+        accountEntity.setEmailAddress(emailAddressEntity);
         accountEntity.setRoleEntities(roleEntities);
         accountEntity.setLifecycleStatus(fromSource.getAccountLifecycleStatus());
         accountEntity.setLockStatus(fromSource.getAccountLockStatus());
-        accountEntity.setLastStatusChangeAt(fromSource.getLastStatusChangedAt());
+        accountEntity.setCreatedAt(fromSource.getCreatedAt());
 
         return accountEntity;
     }
@@ -107,7 +107,7 @@ public class AccountToAccountEntityEntityConverter implements EntityConverter<Ac
         Objects.requireNonNull(fromTarget);
 
         Credentials credentials = credentialsConverter.toDomain(fromTarget.getCredentials());
-        EmailAddress emailAddress = emailAddressConverter.toDomain(fromTarget.getEmail());
+        EmailAddress emailAddress = emailAddressConverter.toDomain(fromTarget.getEmailAddress());
         List<UUID> rolesId = fromTarget.getRoleEntities().stream().map(RoleEntity::getId).toList();
 
         return Account.builder()

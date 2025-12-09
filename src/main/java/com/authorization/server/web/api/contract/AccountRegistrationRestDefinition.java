@@ -22,21 +22,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 public interface AccountRegistrationRestDefinition {
 
-    /** Base path for all authentication-related REST endpoints. */
-    String BASE_PATH = "/rest/auth";
-
-    /** Endpoint path for registering a new user. */
-    String REGISTRATION_PATH = "/public/registerUser";
-
-    /** Endpoint path for verifying a new user. */
-    String VERIFICATION_PATH = "/public/verifyEmailUser/{activationToken}";
-
-    /** Endpoint path for login attempt. */
-    String LOGIN_PATH = "/public/loginUser";
-
-    /** configuration that identifies Resilience4j instance. */
-    String USER_REGISTRATION_SERVICE = "user-registration-service";
-
     /**
      * Registers a new user based on the provided registration data.
      *

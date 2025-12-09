@@ -1,0 +1,13 @@
+@HOST = http://localhost:8080
+@BASE_PATH = rest/auth
+@REGISTRATION_PATH = public/registerAccount
+
+POST {{HOST}}/{{BASE_PATH}}/{{REGISTRATION_PATH}}
+Content-Type: application/json
+
+{
+  "username": "elon",
+  "password": "123",
+  "email": "elon@hotmail.com",
+  "roles": ["manager"]
+}
