@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 
-import com.authorization.server.core.constant.EntityConstants;
+import com.authorization.server.infrastructure.persistence.jpa.constant.Jpa;
 import com.authorization.server.infrastructure.persistence.jpa.entity.NamedEntity;
 
 import lombok.Getter;
@@ -23,15 +23,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = EntityConstants.ROLE, uniqueConstraints = @UniqueConstraint(columnNames = EntityConstants.DISPLAY_NAME))
+@Table(name = Jpa.Table.ROLE, uniqueConstraints = @UniqueConstraint(columnNames = Jpa.Column.DISPLAY_NAME))
 public class RoleEntity extends NamedEntity {
 
     @NotNull
     @ManyToMany
     @JoinTable(
-            name = EntityConstants.ROLE_PERMISSION,
-            joinColumns = @JoinColumn(name = EntityConstants.ROLE_ID),
-            inverseJoinColumns = @JoinColumn(name = EntityConstants.PERMISSION_ID)
+            name = Jpa.JoinTable.ROLES_PERMISSIONS,
+            joinColumns = @JoinColumn(name = Jpa.ForeignKey.ROLE_ID),
+            inverseJoinColumns = @JoinColumn(name = Jpa.ForeignKey.PERMISSION_ID)
     )
     private Collection<PermissionEntity> permissionEntities;
 

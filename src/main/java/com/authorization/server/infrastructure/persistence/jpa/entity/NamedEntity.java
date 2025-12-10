@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotNull;
 
-import com.authorization.server.core.constant.EntityConstants;
+import com.authorization.server.infrastructure.persistence.jpa.constant.Jpa;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,10 +15,10 @@ import lombok.Setter;
 public class NamedEntity extends BaseEntity {
 
     @NotNull
-    @Column(name = EntityConstants.DISPLAY_NAME, nullable = false)
+    @Column(name = Jpa.Column.DISPLAY_NAME, nullable = false)
     private String displayName;
 
     @NotNull
-    @Column(name = EntityConstants.DESCRIPTION, nullable = false)
+    @Column(name = Jpa.Column.DESCRIPTION, nullable = false)
     private String description;
 }

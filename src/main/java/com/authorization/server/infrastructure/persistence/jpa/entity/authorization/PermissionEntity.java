@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-import com.authorization.server.core.constant.EntityConstants;
+import com.authorization.server.infrastructure.persistence.jpa.constant.Jpa;
 import com.authorization.server.infrastructure.persistence.jpa.entity.NamedEntity;
 
 import lombok.Getter;
@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = EntityConstants.PERMISSION, uniqueConstraints = @UniqueConstraint(columnNames = EntityConstants.DISPLAY_NAME))
+@Table(name = Jpa.Table.PERMISSION, uniqueConstraints = @UniqueConstraint(columnNames = Jpa.Column.DISPLAY_NAME))
 public class PermissionEntity extends NamedEntity {
 
     public PermissionEntity(UUID id, String displayName, String description) {

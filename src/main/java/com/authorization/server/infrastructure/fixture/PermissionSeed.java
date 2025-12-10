@@ -5,7 +5,7 @@ import java.util.Set;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.authorization.server.infrastructure.persistence.jpa.contract.PermissionRepository;
+import com.authorization.server.infrastructure.persistence.jpa.repository.PermissionRepository;
 import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.PermissionEntity;
 
 import ro.polak.springboot.datafixtures.DataFixture;

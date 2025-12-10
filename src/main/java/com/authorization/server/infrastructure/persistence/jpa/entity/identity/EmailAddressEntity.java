@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 
-import com.authorization.server.core.constant.EntityConstants;
+import com.authorization.server.infrastructure.persistence.jpa.constant.Jpa;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +17,6 @@ import lombok.NoArgsConstructor;
 public class EmailAddressEntity {
 
     @NotNull
-    @Column(name = EntityConstants.EMAIL_ADDRESS, nullable = false, unique = true)
+    @Column(name = Jpa.Column.EMAIL_ADDRESS, nullable = false, unique = true)
     private String emailAddress;
 }

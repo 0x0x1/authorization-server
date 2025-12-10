@@ -17,9 +17,9 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import com.authorization.server.core.constant.EntityConstants;
 import com.authorization.server.identity.AccountLifecycleStatus;
 import com.authorization.server.identity.AccountLockStatus;
+import com.authorization.server.infrastructure.persistence.jpa.constant.Jpa;
 import com.authorization.server.infrastructure.persistence.jpa.entity.BaseEntity;
 import com.authorization.server.infrastructure.persistence.jpa.entity.authorization.RoleEntity;
 
@@ -31,21 +31,21 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = EntityConstants.ACCOUNT, uniqueConstraints = @UniqueConstraint(columnNames = EntityConstants.EMAIL_ADDRESS ))
+@Table(name = Jpa.Table.ACCOUNT, uniqueConstraints = @UniqueConstraint(columnNames = Jpa.Column.EMAIL_ADDRESS ))
 public class AccountEntity extends BaseEntity {
 
     @NotNull
-    @Column(name = EntityConstants.LIFECYCLE_STATUS, nullable = false)
+    @Column(name = Jpa.Column.LIFECYCLE_STATUS, nullable = false)
     @Enumerated(EnumType.STRING)
     private AccountLifecycleStatus lifecycleStatus;
 
     @NotNull
-    @Column(name = EntityConstants.LOCK_STATUS, nullable = false)
+    @Column(name = Jpa.Column.LOCK_STATUS, nullable = false)
     @Enumerated(EnumType.STRING)
     private AccountLockStatus lockStatus;
 
     @NotNull
-    @Column(name = EntityConstants.CREATED_AT, nullable = false)
+    @Column(name = Jpa.Column.CREATED_AT, nullable = false)
     @JdbcTypeCode(SqlTypes.TIMESTAMP_WITH_TIMEZONE)
     private Instant createdAt;
 
@@ -59,9 +59,9 @@ public class AccountEntity extends BaseEntity {
 
     @ManyToMany
     @JoinTable(
-            name = EntityConstants.ACCOUNTS_ROLES,
-            joinColumns = @JoinColumn(name = EntityConstants.ACCOUNT_ID),
-            inverseJoinColumns = @JoinColumn(name = EntityConstants.ROLE_ID)
+            name = Jpa.JoinTable.ACCOUNTS_ROLES,
+            joinColumns = @JoinColumn(name = Jpa.ForeignKey.ACCOUNT_ID),
+            inverseJoinColumns = @JoinColumn(name = Jpa.ForeignKey.ROLE_ID)
     )
     private Collection<RoleEntity> roleEntities;
 }
