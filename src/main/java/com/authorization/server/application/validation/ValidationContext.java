@@ -1,4 +1,4 @@
-package com.authorization.server.common.validation;
+package com.authorization.server.application.validation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,5 +67,13 @@ public class ValidationContext {
           return errors;
       }
       return Collections.emptyList();
+    }
+
+    @Override
+    public String toString() {
+        return "ValidationContext{" +
+                "errors=" + errors +
+                ", context='" + context + '\'' +
+                '}';
     }
 }

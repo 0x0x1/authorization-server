@@ -60,8 +60,8 @@ public class Web {
         /** Message key for successful user account activation. */
         public static final String ACCOUNT_ACTIVATION_SUCCESS = "app.account.activation.success";
 
-        /** Message key for failed user sign-up. */
-        public static final String ACCOUNT_SIGN_UP_FAILED = "app.signup.failure";
+
+        public static final String ACCOUNT_REGISTRATION_FAILED = "app.register.failure";
 
         public static final String ACCOUNT_LOGIN_FAILED = "app.login.failure";
 

@@ -2,7 +2,7 @@ package com.authorization.server.web.api.response;
 
 import org.springframework.util.Assert;
 
-import com.authorization.server.common.validation.ValidationContext;
+import com.authorization.server.application.validation.ValidationContext;
 
 /**
  * Represents a simple message containing a severity and a textual description.
@@ -59,5 +59,13 @@ public class Message {
      */
     public String getText() {
         return this.text;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "severity='" + severity + '\'' +
+                ", text='" + text + '\'' +
+                '}';
     }
 }

@@ -1,4 +1,4 @@
-package com.authorization.server.common.validation;
+package com.authorization.server.application.validation;
 
 public interface Validator<T> {
 

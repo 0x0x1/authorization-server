@@ -1,8 +1,5 @@
 package com.authorization.server.application.port.inbound;
 
-import java.util.Optional;
-
-import com.authorization.server.identity.Account;
 import com.authorization.server.web.dto.RegisterRequestDto;
 import com.authorization.server.web.dto.RegisterResponseDto;
 
@@ -11,5 +8,6 @@ import com.authorization.server.web.dto.RegisterResponseDto;
  */
 public interface RegisterAccountUseCase {
 
+    //TODO: accept command and return return registerResult response
     RegisterResponseDto register(RegisterRequestDto account);
 }

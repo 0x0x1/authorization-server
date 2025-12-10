@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.authorization.server.application.usecase.RegisterAccountUseCaseImpl;
-import com.authorization.server.common.validation.RegisterAccountUseCaseValidator;
+import com.authorization.server.application.validation.RegisterAccountUseCaseValidator;
 import com.authorization.server.identity.AccountRepository;
 import com.authorization.server.infrastructure.persistence.jpa.converter.dto.AccountToRegisterResponseDtoConverter;
 import com.authorization.server.infrastructure.persistence.jpa.converter.dto.RegisterRequestDtoToAccountConverter;

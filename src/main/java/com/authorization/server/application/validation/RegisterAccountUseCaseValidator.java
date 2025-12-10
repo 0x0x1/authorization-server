@@ -1,10 +1,10 @@
-package com.authorization.server.common.validation;
+package com.authorization.server.application.validation;
 
 import org.springframework.stereotype.Component;
 
 import com.authorization.server.identity.BusinessRules;
 import com.authorization.server.web.dto.RegisterRequestDto;
-import com.authorization.server.web.exception.ApiValidationException;
+import com.authorization.server.application.exception.ValidationException;
 
 @Component
 public class RegisterAccountUseCaseValidator implements Validator<RegisterRequestDto> {
@@ -24,7 +24,7 @@ public class RegisterAccountUseCaseValidator implements Validator<RegisterReques
         }
 
         if (ctx.hasErrors()) {
-            throw new ApiValidationException(ctx.getErrors());
+            throw new ValidationException(ctx.getErrors());
         }
     }
 }

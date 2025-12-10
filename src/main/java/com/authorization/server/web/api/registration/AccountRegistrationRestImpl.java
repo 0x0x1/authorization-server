@@ -1,7 +1,6 @@
 package com.authorization.server.web.api.registration;
 
 import java.util.Locale;
-import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +30,15 @@ public class AccountRegistrationRestImpl implements AccountRegistrationRestDefin
     @Override
     @PostMapping(Web.Route.REGISTRATION_PATH)
     public ResponseEntity<Result<?>> registerAccount(@RequestBody RegisterRequestDto requestDto, Locale locale) {
-        Objects.requireNonNull(requestDto);
-        var registerResponseDto = registerAccountUseCase.register(requestDto);// user registered in the system but disabled
-        var localMessage = i18n.getMessage(Web.AccountFlow.SIGN_UP_SUCCESS, locale);
+        var registerResponseDto = registerAccountUseCase.register(requestDto);
+        String message = i18n.getMessage(Web.AccountFlow.SIGN_UP_SUCCESS, locale);
 
-        var result = Result.status(HttpStatus.CREATED).data(registerResponseDto).message(localMessage).build();
-        return ResponseEntity.status(Web.HttpStatus.CREATED).body(result);
+        var result = Result.onSuccess()
+                                .withCode(HttpStatus.CREATED)
+                                .withData(registerResponseDto)
+                                .withMessage(message)
+                                .build();
+
+        return ResponseEntity.status(result.code()).body(result);
     }
 }

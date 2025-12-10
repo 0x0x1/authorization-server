@@ -9,8 +9,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.authorization.server.application.port.inbound.RegisterAccountUseCase;
-import com.authorization.server.common.validation.RegisterAccountUseCaseValidator;
-import com.authorization.server.common.validation.ValidationContext;
+import com.authorization.server.application.validation.RegisterAccountUseCaseValidator;
+import com.authorization.server.application.validation.ValidationContext;
 import com.authorization.server.identity.Account;
 import com.authorization.server.identity.AccountRepository;
 import com.authorization.server.infrastructure.persistence.jpa.converter.dto.AccountToRegisterResponseDtoConverter;
