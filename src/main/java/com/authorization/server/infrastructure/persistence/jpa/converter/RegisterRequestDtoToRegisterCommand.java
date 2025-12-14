@@ -14,7 +14,8 @@ public class RegisterRequestDtoToRegisterCommand implements Converter<RegisterRe
 
     @Override
     public RegisterCommand convert(@NonNull RegisterRequestDto source) {
-        Objects.requireNonNull(source, "source cannot be null");
+        Objects.requireNonNull(source, "RegisterRequestDto must not be null");
+        Objects.requireNonNull(source.roles(), "Roles must not be null");
 
         return new RegisterCommand(source.username(),
                 source.password(), source.email(), source.roles());
