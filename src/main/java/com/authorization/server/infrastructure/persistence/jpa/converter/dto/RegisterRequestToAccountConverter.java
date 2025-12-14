@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.authorization.server.application.port.outbound.DtoConverter;
+import com.authorization.server.application.port.outbound.Converter;
 import com.authorization.server.identity.Account;
 import com.authorization.server.identity.Credentials;
 import com.authorization.server.identity.EmailAddress;
@@ -17,29 +17,29 @@ import com.authorization.server.infrastructure.persistence.jpa.entity.authorizat
 import com.authorization.server.web.dto.RegisterRequestDto;
 
 @Component
-public class RegisterRequestDtoToAccountConverter implements DtoConverter<RegisterRequestDto, Account> {
+public class RegisterRequestToAccountConverter implements Converter<RegisterRequestDto, Account> {
 
     private final RoleRepository roleRepository;
 
-    public RegisterRequestDtoToAccountConverter(RoleRepository roleRepository) {
+    public RegisterRequestToAccountConverter(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 
     @Override
-    public Account convert(RegisterRequestDto registerRequestDto) {
-        Objects.requireNonNull(registerRequestDto);
+    public Account convert(RegisterRequestDto source) {
+        Objects.requireNonNull(source);
 
-        Username username = new Username(registerRequestDto.username());
-        Password password = new Password(registerRequestDto.password());
+        Username username = new Username(source.username());
+        Password password = new Password(source.password());
         Credentials credentials = new Credentials(username, password);
 
-        List<UUID> roleIds = registerRequestDto.roles().stream()
+        List<UUID> roleIds = source.roles().stream()
                 .map(roleRepository::findByDisplayName)
                 .map(RoleEntity::getId).toList();
 
         return Account.builder()
                 .credentials(credentials)
-                .emailAddress(new EmailAddress(registerRequestDto.email()))
+                .emailAddress(new EmailAddress(source.email()))
                 .roleIds(roleIds)
                 .build();
     }

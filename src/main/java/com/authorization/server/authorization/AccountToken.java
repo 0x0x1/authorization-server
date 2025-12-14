@@ -1,4 +1,4 @@
-package com.authorization.server.authorization.token;
+package com.authorization.server.authorization;
 
 import java.time.Instant;
 

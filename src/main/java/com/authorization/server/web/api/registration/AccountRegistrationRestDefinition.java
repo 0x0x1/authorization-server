@@ -2,9 +2,8 @@ package com.authorization.server.web.api.registration;
 
 import java.util.Locale;
 
-import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.authorization.server.web.api.response.Result;
@@ -40,5 +39,5 @@ public interface AccountRegistrationRestDefinition {
             @ApiResponse(responseCode = "400", description = "Cannot process the request"),
             @ApiResponse(responseCode = "409", description = "Internal conflict"),
             @ApiResponse(responseCode = "500", description = "Internal server error")})
-    ResponseEntity<Result<?>> registerAccount(@Valid @RequestBody RegisterRequestDto requestDto, Locale locale);
+    ResponseEntity<Result<?>> registerAccount(@RequestBody RegisterRequestDto requestDto, BindingResult bindingResult, Locale locale);
 }

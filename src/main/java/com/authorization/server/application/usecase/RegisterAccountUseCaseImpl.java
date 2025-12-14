@@ -2,51 +2,46 @@ package com.authorization.server.application.usecase;
 
 import static jakarta.transaction.Transactional.TxType.REQUIRES_NEW;
 
+import java.util.Objects;
 import java.util.Optional;
-
 import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.authorization.server.application.command.RegisterCommand;
+import com.authorization.server.application.command.RegisterCommandResult;
 import com.authorization.server.application.port.inbound.RegisterAccountUseCase;
-import com.authorization.server.application.validation.RegisterAccountUseCaseValidator;
-import com.authorization.server.application.validation.ValidationContext;
 import com.authorization.server.identity.Account;
 import com.authorization.server.identity.AccountRepository;
-import com.authorization.server.infrastructure.persistence.jpa.converter.dto.AccountToRegisterResponseDtoConverter;
-import com.authorization.server.infrastructure.persistence.jpa.converter.dto.RegisterRequestDtoToAccountConverter;
-import com.authorization.server.web.dto.RegisterRequestDto;
-import com.authorization.server.web.dto.RegisterResponseDto;
+import com.authorization.server.infrastructure.persistence.jpa.converter.cmd.AccountToRegisterCommandResult;
+import com.authorization.server.infrastructure.persistence.jpa.converter.cmd.RegisterCommandToAccount;
 
 @Service
 public class RegisterAccountUseCaseImpl implements RegisterAccountUseCase {
 
     private final AccountRepository accountRepository;
-    private final RegisterRequestDtoToAccountConverter toAccount;
-    private final AccountToRegisterResponseDtoConverter toRegisterResponseDto;
-    private final RegisterAccountUseCaseValidator validator;
+    private final RegisterCommandToAccount cmdConverter;
+    private final AccountToRegisterCommandResult toRegisterCommandResult;
 
-    public RegisterAccountUseCaseImpl(AccountRepository accountRepository, RegisterRequestDtoToAccountConverter toAccount, AccountToRegisterResponseDtoConverter toRegisterResponseDto, RegisterAccountUseCaseValidator validator) {
+    public RegisterAccountUseCaseImpl(AccountRepository accountRepository, RegisterCommandToAccount cmdConverter, AccountToRegisterCommandResult toRegisterCommandResult) {
         this.accountRepository = accountRepository;
-        this.toAccount = toAccount;
-        this.toRegisterResponseDto = toRegisterResponseDto;
-        this.validator = validator;
+        this.cmdConverter = cmdConverter;
+        this.toRegisterCommandResult = toRegisterCommandResult;
     }
+
 
     @Override
     @Transactional(REQUIRES_NEW)
-    public RegisterResponseDto register(RegisterRequestDto registerRequestDto) {
-        ValidationContext ctx = new ValidationContext("register-new-account-context");
-        validator.validateAndThrow(registerRequestDto, ctx);
+    public RegisterCommandResult handle(RegisterCommand registerCommand) {
+        Objects.requireNonNull(registerCommand);
+        Account Account = cmdConverter.convert(registerCommand);
+        System.out.println(Account.getEmailAddress().emailAddress());
+        Optional<Account> saved = accountRepository.save(Account);
 
-        Account account = toAccount.convert(registerRequestDto);
-        Optional<Account> savedAccount = accountRepository.save(account);
-
-        if (savedAccount.isPresent()) {
-            return toRegisterResponseDto.convert(savedAccount.get());
+        if (saved.isEmpty()) {
+            throw new IllegalStateException("Account could not be saved");
         }
 
-        throw new RuntimeException("cannot register account");
+        return toRegisterCommandResult.convert(Account);
     }
-
 }

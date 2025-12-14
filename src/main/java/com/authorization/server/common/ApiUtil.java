@@ -1,4 +1,4 @@
-package com.authorization.server.web.util;
+package com.authorization.server.common;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.authorization.server.common.config;
+package com.authorization.server.web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

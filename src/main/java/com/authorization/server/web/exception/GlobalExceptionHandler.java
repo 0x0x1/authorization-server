@@ -14,7 +14,7 @@ import com.authorization.server.identity.constant.Domain;
 import com.authorization.server.web.api.response.I18n;
 import com.authorization.server.web.api.response.Result;
 import com.authorization.server.web.constant.Web;
-import com.authorization.server.web.util.ApiUtil;
+import com.authorization.server.common.ApiUtil;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

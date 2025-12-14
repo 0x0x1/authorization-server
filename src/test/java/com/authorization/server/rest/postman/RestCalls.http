@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "username": "elon",
-  "password": "123",
-  "email": "elon@hotmail.com",
+  "password": "Elo!12345555",
+  "email": "Elon_Musk@hotmail.com",
   "roles": ["manager"]
 }

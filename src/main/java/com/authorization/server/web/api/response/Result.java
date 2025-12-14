@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 
-public record Result<T>(HttpStatus code, T data, Success success, String message, List<Message> context) {
+public record Result<T>(HttpStatus code, T data, Success success, String message, List<Message> errors) {
 
     public final static class OnSuccess<T> {
         private HttpStatus code;

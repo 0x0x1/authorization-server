@@ -1,4 +1,4 @@
-package com.authorization.server.authorization.token;
+package com.authorization.server.authorization;
 
 public sealed interface Token permits AccountToken {
 

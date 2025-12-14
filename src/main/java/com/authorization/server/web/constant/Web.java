@@ -52,7 +52,7 @@ public class Web {
         }
 
         /** Message key for successful user sign-up. */
-        public static final String SIGN_UP_SUCCESS = "app.signup.success";
+        public static final String REGISTRATION_SUCCESS = "app.account.registration.success";
 
         /** Message key for successful login. */
         public static final String LOGIN_SUCCESS = "app.login.success";
@@ -150,9 +150,6 @@ public class Web {
         /** Message key indicating API rate limits have been exceeded. */
         public static final String API_REQUESTS_EXCEED_THRESHOLD = "api-requests-exceed-threshold";
 
-        /** Message key for validation failures intercepted in resilient flows. */
-        public static final String VALIDATION_FAILED = "validation-failed";
-
         /** Message key representing invalid email input. */
         public static final String INVALID_EMAIL = "invalid-email";
     }
@@ -176,6 +173,9 @@ public class Web {
         private Validation() {
             throw new IllegalStateException("Utility class");
         }
+
+        /** Message key for validation failures intercepted in resilient flows. */
+        public static final String VALIDATION_FAILED = "account.validation.failed";
 
 
     }

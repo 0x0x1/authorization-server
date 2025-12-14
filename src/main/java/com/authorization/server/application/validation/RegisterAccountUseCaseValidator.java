@@ -2,24 +2,24 @@ package com.authorization.server.application.validation;
 
 import org.springframework.stereotype.Component;
 
+import com.authorization.server.application.command.RegisterCommand;
 import com.authorization.server.identity.BusinessRules;
-import com.authorization.server.web.dto.RegisterRequestDto;
 import com.authorization.server.application.exception.ValidationException;
 
 @Component
-public class RegisterAccountUseCaseValidator implements Validator<RegisterRequestDto> {
+public class RegisterAccountUseCaseValidator implements Validator<RegisterCommand> {
 
     @Override
-    public void validateAndThrow(RegisterRequestDto input, ValidationContext ctx) {
+    public void validateAndThrow(RegisterCommand input, ValidationContext ctx) {
         if (input.username() == null || input.username().isBlank()) {
-            ctx.addError("username", "Username cannot be blank");
+            ctx.addError("app.error.severity.info", "Username cannot be blank");
         }
 
         if (input.email() == null || !BusinessRules.isValidEmail(input.email())) {
-            ctx.addError("email", "Email is invalid");
+            ctx.addError("app.error.severity.info", "Email is invalid");
         }
         if (input.password() == null || !BusinessRules.isStrongPassword(input.password())) {
-            ctx.addError("password", "Password must be at least 8 characters, have " +
+            ctx.addError("app.error.severity.info", "Password must be at least 8 characters, have " +
                     "at least one upper, lower, digit, special");
         }
 
