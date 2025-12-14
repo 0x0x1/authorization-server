@@ -3,6 +3,7 @@ package com.authorization.server.web.api.registration;
 import java.util.Locale;
 import java.util.Objects;
 
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -28,19 +29,17 @@ public class AccountRegistrationRestImpl implements AccountRegistrationRestDefin
 
     private final I18n i18n;
     private final RegisterAccountUseCase registerAccountUseCase;
-    private final Converter<RegisterRequestDto, RegisterCommand> converter =
-            dto -> new RegisterCommand(dto.username(), dto.email(), dto.password(), dto.roles());
+    private final ConversionService converter;
 
-    public AccountRegistrationRestImpl(I18n i18n, RegisterAccountUseCase registerAccountUseCase) {
+    public AccountRegistrationRestImpl(I18n i18n, RegisterAccountUseCase registerAccountUseCase, ConversionService converter) {
         this.i18n = i18n;
         this.registerAccountUseCase = registerAccountUseCase;
+        this.converter = converter;
     }
 
     @Override
     @PostMapping(Web.Route.REGISTRATION_PATH)
     public ResponseEntity<Result<?>> registerAccount(@RequestBody @Validated RegisterRequestDto requestDto, BindingResult bindingResult, Locale locale) {
-
-        System.out.println(requestDto.email());
         if (bindingResult.hasErrors()) {
             String message = i18n.getMessage(Web.Validation.VALIDATION_FAILED, locale);
 
@@ -57,8 +56,7 @@ public class AccountRegistrationRestImpl implements AccountRegistrationRestDefin
             return ResponseEntity.status(result.code()).body(result);
         }
 
-        Objects.requireNonNull(requestDto);
-        RegisterCommand registerCommand = converter.convert(requestDto);
+        RegisterCommand registerCommand = converter.convert(requestDto, RegisterCommand.class);
 
         // web/ui-application boundary
         RegisterCommandResult registerResponseDto = registerAccountUseCase.handle(registerCommand);
