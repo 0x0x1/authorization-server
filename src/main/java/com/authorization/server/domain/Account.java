@@ -1,6 +1,6 @@
-package com.authorization.server.identity;
+package com.authorization.server.domain;
 
-import static com.authorization.server.identity.AccountUtil.generateUUIDv7;
+import static com.authorization.server.domain.AccountUtil.generateUUIDv7;
 
 import java.time.Instant;
 import java.util.Collection;

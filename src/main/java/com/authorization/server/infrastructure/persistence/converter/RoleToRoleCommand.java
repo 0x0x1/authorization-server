@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.authorization.server.application.command.PermissionCommand;
 import com.authorization.server.application.command.RoleCommand;
-import com.authorization.server.identity.Permission;
-import com.authorization.server.identity.Role;
+import com.authorization.server.domain.Permission;
+import com.authorization.server.domain.Role;
 
 @Component
 public class RoleToRoleCommand implements Converter<Role, RoleCommand> {

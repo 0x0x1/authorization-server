@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.authorization.server.application.exception.ValidationException;
 import com.authorization.server.application.exception.DuplicateUserException;
-import com.authorization.server.identity.constant.Domain;
+import com.authorization.server.domain.constant.Domain;
 import com.authorization.server.web.api.response.I18n;
 import com.authorization.server.web.api.response.Result;
 import com.authorization.server.web.constant.Web;

@@ -3,9 +3,9 @@ package com.authorization.server.infrastructure.persistence.converter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import com.authorization.server.identity.Account;
-import com.authorization.server.identity.Credentials;
-import com.authorization.server.identity.EmailAddress;
+import com.authorization.server.domain.Account;
+import com.authorization.server.domain.Credentials;
+import com.authorization.server.domain.EmailAddress;
 import com.authorization.server.infrastructure.persistence.entity.BaseEntity;
 import com.authorization.server.infrastructure.persistence.entity.identity.AccountEntity;
 import com.authorization.server.infrastructure.persistence.entity.identity.CredentialsEntity;

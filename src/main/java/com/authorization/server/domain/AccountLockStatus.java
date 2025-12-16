@@ -1,4 +1,4 @@
-package com.authorization.server.identity;
+package com.authorization.server.domain;
 
 /*
  * Represents the account lock status. Whether the account is locked or not.

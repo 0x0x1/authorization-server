@@ -17,8 +17,8 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import com.authorization.server.identity.AccountLifecycleStatus;
-import com.authorization.server.identity.AccountLockStatus;
+import com.authorization.server.domain.AccountLifecycleStatus;
+import com.authorization.server.domain.AccountLockStatus;
 import com.authorization.server.infrastructure.persistence.constant.Jpa;
 import com.authorization.server.infrastructure.persistence.entity.BaseEntity;
 import com.authorization.server.infrastructure.persistence.entity.authorization.RoleEntity;

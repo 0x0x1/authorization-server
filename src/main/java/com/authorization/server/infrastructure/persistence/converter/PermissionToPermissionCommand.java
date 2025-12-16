@@ -4,7 +4,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import com.authorization.server.application.command.PermissionCommand;
-import com.authorization.server.identity.Permission;
+import com.authorization.server.domain.Permission;
 
 @Component
 public class PermissionToPermissionCommand implements Converter<Permission, PermissionCommand> {

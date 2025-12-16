@@ -12,10 +12,10 @@ import com.authorization.server.application.command.RegisterCommand;
 import com.authorization.server.application.command.RegisterCommandResult;
 import com.authorization.server.application.port.inbound.RegisterAccountUseCase;
 import com.authorization.server.application.port.outbound.RoleReaderPort;
-import com.authorization.server.identity.Account;
-import com.authorization.server.identity.AccountFactoryPort;
-import com.authorization.server.identity.AccountPersistencePort;
-import com.authorization.server.identity.Role;
+import com.authorization.server.domain.Account;
+import com.authorization.server.domain.AccountFactoryPort;
+import com.authorization.server.domain.AccountPersistencePort;
+import com.authorization.server.domain.Role;
 
 @Service
 public class RegisterAccountUseCaseImpl implements RegisterAccountUseCase {

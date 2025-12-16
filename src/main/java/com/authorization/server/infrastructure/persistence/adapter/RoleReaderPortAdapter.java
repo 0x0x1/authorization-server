@@ -8,10 +8,9 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 import com.authorization.server.application.port.outbound.RoleReaderPort;
-import com.authorization.server.identity.Account;
-import com.authorization.server.identity.Role;
+import com.authorization.server.domain.Account;
+import com.authorization.server.domain.Role;
 import com.authorization.server.infrastructure.persistence.entity.BaseEntity;
-import com.authorization.server.infrastructure.persistence.entity.authorization.RoleEntity;
 import com.authorization.server.infrastructure.persistence.repository.RoleRepository;
 
 @Service

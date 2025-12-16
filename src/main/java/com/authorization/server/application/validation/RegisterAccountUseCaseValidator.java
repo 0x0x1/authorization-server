@@ -3,7 +3,7 @@ package com.authorization.server.application.validation;
 import org.springframework.stereotype.Component;
 
 import com.authorization.server.application.command.RegisterCommand;
-import com.authorization.server.identity.BusinessRules;
+import com.authorization.server.domain.BusinessRules;
 import com.authorization.server.application.exception.ValidationException;
 
 @Component

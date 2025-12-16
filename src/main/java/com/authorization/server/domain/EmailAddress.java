@@ -1,4 +1,4 @@
-package com.authorization.server.identity;
+package com.authorization.server.domain;
 
 public record EmailAddress (String emailAddress) {
 

@@ -1,4 +1,4 @@
-package com.authorization.server.identity;
+package com.authorization.server.domain;
 /*
  * Represents the account status. Whether it's enabled or disabled.
  */

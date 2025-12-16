@@ -5,8 +5,8 @@ import java.util.Collection;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import com.authorization.server.identity.Permission;
-import com.authorization.server.identity.Role;
+import com.authorization.server.domain.Permission;
+import com.authorization.server.domain.Role;
 import com.authorization.server.web.dto.PermissionDto;
 import com.authorization.server.web.dto.RoleDto;
 

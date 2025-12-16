@@ -6,12 +6,12 @@ import java.util.UUID;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.authorization.server.identity.Account;
-import com.authorization.server.identity.AccountPersistencePort;
-import com.authorization.server.identity.Credentials;
-import com.authorization.server.identity.EmailAddress;
-import com.authorization.server.identity.Password;
-import com.authorization.server.identity.Username;
+import com.authorization.server.domain.Account;
+import com.authorization.server.domain.AccountPersistencePort;
+import com.authorization.server.domain.Credentials;
+import com.authorization.server.domain.EmailAddress;
+import com.authorization.server.domain.Password;
+import com.authorization.server.domain.Username;
 import com.authorization.server.infrastructure.persistence.repository.PermissionRepository;
 import com.authorization.server.infrastructure.persistence.repository.RoleRepository;
 

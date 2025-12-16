@@ -1,4 +1,4 @@
-package com.authorization.server.identity;
+package com.authorization.server.domain;
 
 import java.time.Instant;
 import java.util.Random;

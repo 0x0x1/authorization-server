@@ -3,7 +3,7 @@ package com.authorization.server.infrastructure.persistence.converter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import com.authorization.server.identity.Permission;
+import com.authorization.server.domain.Permission;
 import com.authorization.server.web.dto.PermissionDto;
 
 @Component

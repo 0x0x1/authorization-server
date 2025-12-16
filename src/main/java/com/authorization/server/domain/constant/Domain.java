@@ -1,4 +1,4 @@
-package com.authorization.server.identity.constant;
+package com.authorization.server.domain.constant;
 
 public final class Domain {
 

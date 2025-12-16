@@ -8,9 +8,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import com.authorization.server.application.exception.AccountContraintViolationException;
-import com.authorization.server.identity.Account;
-import com.authorization.server.identity.AccountFactoryPort;
-import com.authorization.server.identity.AccountPersistencePort;
+import com.authorization.server.domain.Account;
+import com.authorization.server.domain.AccountFactoryPort;
+import com.authorization.server.domain.AccountPersistencePort;
 import com.authorization.server.infrastructure.persistence.entity.authorization.RoleEntity;
 import com.authorization.server.infrastructure.persistence.repository.AccountRepository;
 import com.authorization.server.infrastructure.persistence.repository.RoleRepository;

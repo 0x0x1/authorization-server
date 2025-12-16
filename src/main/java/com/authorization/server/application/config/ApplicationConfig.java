@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.authorization.server.application.port.outbound.RoleReaderPort;
 import com.authorization.server.application.usecase.RegisterAccountUseCaseImpl;
-import com.authorization.server.identity.AccountFactoryPort;
-import com.authorization.server.identity.AccountPersistencePort;
+import com.authorization.server.domain.AccountFactoryPort;
+import com.authorization.server.domain.AccountPersistencePort;
 
 @Configuration
 public class ApplicationConfig {

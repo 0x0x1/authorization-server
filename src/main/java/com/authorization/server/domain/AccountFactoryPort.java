@@ -1,4 +1,4 @@
-package com.authorization.server.identity;
+package com.authorization.server.domain;
 
 import java.util.Collection;
 import java.util.UUID;
