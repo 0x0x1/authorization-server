@@ -7,7 +7,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.authorization.server.identity.Account;
-import com.authorization.server.identity.AccountRepository;
+import com.authorization.server.identity.AccountPersistencePort;
 import com.authorization.server.identity.Credentials;
 import com.authorization.server.identity.EmailAddress;
 import com.authorization.server.identity.Password;
@@ -22,11 +22,11 @@ import ro.polak.springboot.datafixtures.DataFixtureSet;
 @Order(3)
 public class AccountSeed implements DataFixture {
 
-    private final AccountRepository accountRepo;
+    private final AccountPersistencePort accountRepo;
     private final RoleRepository roleRepo;
     private final PermissionRepository permissionRepo;
 
-    public AccountSeed(AccountRepository accountRepo, RoleRepository roleRepo, PermissionRepository permissionRepo) {
+    public AccountSeed(AccountPersistencePort accountRepo, RoleRepository roleRepo, PermissionRepository permissionRepo) {
         this.accountRepo = accountRepo;
         this.roleRepo = roleRepo;
         this.permissionRepo = permissionRepo;

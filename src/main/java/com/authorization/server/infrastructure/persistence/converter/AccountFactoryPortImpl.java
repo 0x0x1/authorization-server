@@ -4,27 +4,28 @@ import java.util.Collection;
 import java.util.UUID;
 
 import org.springframework.core.convert.ConversionService;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.authorization.server.application.command.RegisterCommand;
 import com.authorization.server.application.command.RegisterCommandResult;
 import com.authorization.server.application.command.RoleCommand;
 import com.authorization.server.identity.Account;
+import com.authorization.server.identity.AccountFactoryPort;
 import com.authorization.server.identity.Credentials;
 import com.authorization.server.identity.EmailAddress;
 import com.authorization.server.identity.Password;
+import com.authorization.server.identity.Role;
 import com.authorization.server.identity.Username;
 import com.authorization.server.infrastructure.persistence.entity.authorization.RoleEntity;
 import com.authorization.server.infrastructure.persistence.entity.identity.AccountEntity;
 import com.authorization.server.infrastructure.persistence.entity.identity.CredentialsEntity;
 import com.authorization.server.infrastructure.persistence.entity.identity.EmailAddressEntity;
 
-@Component
-public class AccountFactory {
-
+@Service
+public class AccountFactoryPortImpl implements AccountFactoryPort {
     private final ConversionService conversionService;
 
-    public AccountFactory(ConversionService conversionService) {
+    public AccountFactoryPortImpl(ConversionService conversionService) {
         this.conversionService = conversionService;
     }
 
@@ -62,7 +63,7 @@ public class AccountFactory {
         return accountEntity;
     }
 
-    public RegisterCommandResult toRegisterCommandResult(Account source, Collection<RoleEntity> roleEntities) {
+    public RegisterCommandResult toRegisterCommandResult(Account source, Collection<Role> roles) {
         if (source == null) {
             return null;
         }
@@ -70,12 +71,11 @@ public class AccountFactory {
         var username = source.getCredentials().username().username();
         var emailAddress = source.getEmailAddress().emailAddress();
 
-        Collection<RoleCommand> roleCommands = roleEntities.stream()
-                .map(roleEntity -> conversionService.convert(roleEntity, RoleCommand.class))
+        Collection<RoleCommand> roleCommands = roles.stream()
+                .map(role -> conversionService.convert(role, RoleCommand.class))
                 .toList();
 
         return new RegisterCommandResult(source.getId().toString(),
                 username, emailAddress, roleCommands);
-
     }
 }

@@ -3,14 +3,14 @@ package com.authorization.server.infrastructure.persistence.adapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.authorization.server.application.port.outbound.PasswordHashingService;
+import com.authorization.server.application.port.outbound.PasswordHashingPort;
 
 @Component
-public class PasswordHashingServiceImpl implements PasswordHashingService {
+public class PasswordHashingPortImpl implements PasswordHashingPort {
 
     private final PasswordEncoder passwordEncoder;
 
-    public PasswordHashingServiceImpl(PasswordEncoder passwordEncoder) {
+    public PasswordHashingPortImpl(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 

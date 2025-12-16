@@ -10,7 +10,7 @@ import com.authorization.server.infrastructure.persistence.entity.identity.Accou
 import com.authorization.server.infrastructure.persistence.entity.identity.EmailAddressEntity;
 
 @Repository
-public interface AccountRepositoryJpa extends JpaRepository<AccountEntity, UUID> {
+public interface AccountRepository extends JpaRepository<AccountEntity, UUID> {
     Optional<AccountEntity> findByEmailAddress(EmailAddressEntity email);
 
 }

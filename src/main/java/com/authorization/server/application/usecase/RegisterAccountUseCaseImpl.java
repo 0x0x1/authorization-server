@@ -3,7 +3,6 @@ package com.authorization.server.application.usecase;
 import static jakarta.transaction.Transactional.TxType.REQUIRES_NEW;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.UUID;
 import jakarta.transaction.Transactional;
 
@@ -12,50 +11,35 @@ import org.springframework.stereotype.Service;
 import com.authorization.server.application.command.RegisterCommand;
 import com.authorization.server.application.command.RegisterCommandResult;
 import com.authorization.server.application.port.inbound.RegisterAccountUseCase;
+import com.authorization.server.application.port.outbound.RoleReaderPort;
 import com.authorization.server.identity.Account;
-import com.authorization.server.identity.AccountRepository;
-import com.authorization.server.infrastructure.persistence.converter.AccountFactory;
-import com.authorization.server.infrastructure.persistence.entity.BaseEntity;
-import com.authorization.server.infrastructure.persistence.entity.authorization.RoleEntity;
-import com.authorization.server.infrastructure.persistence.repository.RoleRepository;
+import com.authorization.server.identity.AccountFactoryPort;
+import com.authorization.server.identity.AccountPersistencePort;
+import com.authorization.server.identity.Role;
 
 @Service
 public class RegisterAccountUseCaseImpl implements RegisterAccountUseCase {
 
-    private final AccountRepository accountRepository;
-    private final RoleRepository roleRepository;
-    private final AccountFactory accountFactory;
+    private final AccountPersistencePort accountPersistencePort;
+    private final RoleReaderPort roleReaderPort;
+    private final AccountFactoryPort accountFactoryConverterPort;
 
-    public RegisterAccountUseCaseImpl(AccountRepository accountRepository, RoleRepository roleRepository, AccountFactory accountFactory) {
-        this.accountRepository = accountRepository;
-        this.roleRepository = roleRepository;
-        this.accountFactory = accountFactory;
+    public RegisterAccountUseCaseImpl(AccountPersistencePort accountPersistencePort, RoleReaderPort roleReaderPort, AccountFactoryPort accountFactoryConverterPort) {
+        this.accountPersistencePort = accountPersistencePort;
+        this.roleReaderPort = roleReaderPort;
+        this.accountFactoryConverterPort = accountFactoryConverterPort;
     }
 
     @Override
     @Transactional(REQUIRES_NEW)
     public RegisterCommandResult handle(RegisterCommand registerCommand) {
+        Collection<UUID> roleIds = roleReaderPort.retrieveRoleIdsByDisplayName(registerCommand.roles());
 
-        Collection<UUID> roleIds = registerCommand.roles().stream()
-                .map(roleRepository::findByDisplayName)
-                .map(BaseEntity::getId)
-                .toList();
+        Account account = accountFactoryConverterPort.from(registerCommand, roleIds); // create
+        Account savedAccount = accountPersistencePort.save(account); // persist
 
-        Account account = accountFactory.from(registerCommand, roleIds);
+        Collection<Role> roles = roleReaderPort.retrieveRolesByIds(savedAccount, roleIds);
 
-        Optional<Account> savedAccount = accountRepository.save(account);
-
-        Collection<RoleEntity> roleEntities =
-                savedAccount.get().getRoleIds().stream()
-                        .map(roleRepository::findById)
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
-                        .toList();
-
-        if (savedAccount.isPresent()) {
-            return accountFactory.toRegisterCommandResult(savedAccount.get(), roleEntities);
-        } else {
-            throw new IllegalStateException("Account could not be savedAccount");
-        }
+        return accountFactoryConverterPort.toRegisterCommandResult(savedAccount, roles);
     }
 }
