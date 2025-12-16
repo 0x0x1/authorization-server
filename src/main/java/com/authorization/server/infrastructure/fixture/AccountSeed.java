@@ -12,8 +12,8 @@ import com.authorization.server.identity.Credentials;
 import com.authorization.server.identity.EmailAddress;
 import com.authorization.server.identity.Password;
 import com.authorization.server.identity.Username;
-import com.authorization.server.infrastructure.persistence.jpa.repository.PermissionRepository;
-import com.authorization.server.infrastructure.persistence.jpa.repository.RoleRepository;
+import com.authorization.server.infrastructure.persistence.repository.PermissionRepository;
+import com.authorization.server.infrastructure.persistence.repository.RoleRepository;
 
 import ro.polak.springboot.datafixtures.DataFixture;
 import ro.polak.springboot.datafixtures.DataFixtureSet;

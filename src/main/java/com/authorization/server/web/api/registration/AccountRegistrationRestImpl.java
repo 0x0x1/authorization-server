@@ -1,7 +1,6 @@
 package com.authorization.server.web.api.registration;
 
 import java.util.Locale;
-import java.util.Objects;
 
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
@@ -14,14 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.authorization.server.application.command.RegisterCommand;
-import com.authorization.server.application.command.RegisterCommandResult;
 import com.authorization.server.application.port.inbound.RegisterAccountUseCase;
-import com.authorization.server.application.port.outbound.Converter;
 import com.authorization.server.web.api.response.Message;
 import com.authorization.server.web.api.response.Result;
 import com.authorization.server.web.api.response.I18n;
 import com.authorization.server.web.constant.Web;
 import com.authorization.server.web.dto.RegisterRequestDto;
+import com.authorization.server.web.dto.RegisterResponseDto;
 
 @RestController
 @RequestMapping(Web.Route.BASE_PATH)
@@ -57,10 +55,8 @@ public class AccountRegistrationRestImpl implements AccountRegistrationRestDefin
         }
 
         RegisterCommand registerCommand = converter.convert(requestDto, RegisterCommand.class);
-
-        // web/ui-application boundary
-        RegisterCommandResult registerResponseDto = registerAccountUseCase.handle(registerCommand);
-
+        var registerCommandResult = registerAccountUseCase.handle(registerCommand);
+        var registerResponseDto = converter.convert(registerCommandResult, RegisterResponseDto.class);
         String message = i18n.getMessage(Web.AccountFlow.REGISTRATION_SUCCESS, locale);
 
         var result = Result.onSuccess()

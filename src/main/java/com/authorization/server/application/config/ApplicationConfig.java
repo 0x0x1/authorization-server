@@ -5,15 +5,14 @@ import org.springframework.context.annotation.Configuration;
 
 import com.authorization.server.application.usecase.RegisterAccountUseCaseImpl;
 import com.authorization.server.identity.AccountRepository;
-import com.authorization.server.infrastructure.persistence.jpa.converter.cmd.AccountToRegisterCommandResult;
-import com.authorization.server.infrastructure.persistence.jpa.converter.cmd.RegisterCommandToAccount;
+import com.authorization.server.infrastructure.persistence.converter.AccountFactory;
+import com.authorization.server.infrastructure.persistence.repository.RoleRepository;
 
 @Configuration
 public class ApplicationConfig {
 
     @Bean
-    public RegisterAccountUseCaseImpl registerAccountUseCase(AccountRepository accountRepository, RegisterCommandToAccount cmdConverter,
-                                                             AccountToRegisterCommandResult toRegisterCommandResult) {
-        return new RegisterAccountUseCaseImpl(accountRepository, cmdConverter, toRegisterCommandResult);
+    public RegisterAccountUseCaseImpl registerAccountUseCase(AccountRepository accountRepository, RoleRepository roleRepository, AccountFactory accountFactory) {
+        return new RegisterAccountUseCaseImpl(accountRepository, roleRepository, accountFactory);
     }
 }

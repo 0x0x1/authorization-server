@@ -2,8 +2,6 @@ package com.authorization.server.identity;
 
 import java.util.Optional;
 
-import com.authorization.server.infrastructure.persistence.jpa.entity.identity.AccountEntity;
-
 /*
  * Domain-Persistence boundary. Describes application capability on domain level.
  */

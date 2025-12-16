@@ -2,8 +2,9 @@ package com.authorization.server.application.usecase;
 
 import static jakarta.transaction.Transactional.TxType.REQUIRES_NEW;
 
-import java.util.Objects;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -13,35 +14,48 @@ import com.authorization.server.application.command.RegisterCommandResult;
 import com.authorization.server.application.port.inbound.RegisterAccountUseCase;
 import com.authorization.server.identity.Account;
 import com.authorization.server.identity.AccountRepository;
-import com.authorization.server.infrastructure.persistence.jpa.converter.cmd.AccountToRegisterCommandResult;
-import com.authorization.server.infrastructure.persistence.jpa.converter.cmd.RegisterCommandToAccount;
+import com.authorization.server.infrastructure.persistence.converter.AccountFactory;
+import com.authorization.server.infrastructure.persistence.entity.BaseEntity;
+import com.authorization.server.infrastructure.persistence.entity.authorization.RoleEntity;
+import com.authorization.server.infrastructure.persistence.repository.RoleRepository;
 
 @Service
 public class RegisterAccountUseCaseImpl implements RegisterAccountUseCase {
 
     private final AccountRepository accountRepository;
-    private final RegisterCommandToAccount cmdConverter;
-    private final AccountToRegisterCommandResult toRegisterCommandResult;
+    private final RoleRepository roleRepository;
+    private final AccountFactory accountFactory;
 
-    public RegisterAccountUseCaseImpl(AccountRepository accountRepository, RegisterCommandToAccount cmdConverter, AccountToRegisterCommandResult toRegisterCommandResult) {
+    public RegisterAccountUseCaseImpl(AccountRepository accountRepository, RoleRepository roleRepository, AccountFactory accountFactory) {
         this.accountRepository = accountRepository;
-        this.cmdConverter = cmdConverter;
-        this.toRegisterCommandResult = toRegisterCommandResult;
+        this.roleRepository = roleRepository;
+        this.accountFactory = accountFactory;
     }
-
 
     @Override
     @Transactional(REQUIRES_NEW)
     public RegisterCommandResult handle(RegisterCommand registerCommand) {
-        Objects.requireNonNull(registerCommand);
-        Account Account = cmdConverter.convert(registerCommand);
-        System.out.println(Account.getEmailAddress().emailAddress());
-        Optional<Account> saved = accountRepository.save(Account);
 
-        if (saved.isEmpty()) {
-            throw new IllegalStateException("Account could not be saved");
+        Collection<UUID> roleIds = registerCommand.roles().stream()
+                .map(roleRepository::findByDisplayName)
+                .map(BaseEntity::getId)
+                .toList();
+
+        Account account = accountFactory.from(registerCommand, roleIds);
+
+        Optional<Account> savedAccount = accountRepository.save(account);
+
+        Collection<RoleEntity> roleEntities =
+                savedAccount.get().getRoleIds().stream()
+                        .map(roleRepository::findById)
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
+                        .toList();
+
+        if (savedAccount.isPresent()) {
+            return accountFactory.toRegisterCommandResult(savedAccount.get(), roleEntities);
+        } else {
+            throw new IllegalStateException("Account could not be savedAccount");
         }
-
-        return toRegisterCommandResult.convert(Account);
     }
 }

@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString (exclude = "credentials")
+@ToString(exclude = "credentials")
 /*
  * The Authoritative Principal representing the user's identity in the Authorization system.
  */
@@ -39,12 +39,18 @@ public class Account {
         }
 
         /*
-         * Default configuration.
+         * Use defaults or explicit values based on builder configuration.
          */
-        this.id = generateUUIDv7();
-        this.accountLifecycleStatus = AccountLifecycleStatus.ENABLED;
-        this.accountLockStatus = AccountLockStatus.UNLOCKED;
-        this.createdAt = Instant.now();
+        this.id = builder.id != null ? builder.id : generateUUIDv7();
+        this.accountLifecycleStatus = builder.accountLifecycleStatus != null
+                ? builder.accountLifecycleStatus
+                : AccountLifecycleStatus.ENABLED;
+        this.accountLockStatus = builder.accountLockStatus != null
+                ? builder.accountLockStatus
+                : AccountLockStatus.UNLOCKED;
+        this.createdAt = builder.createdAt != null
+                ? builder.createdAt
+                : Instant.now();
 
         /*
          * Explicitly defined by the user or system admin.
@@ -64,6 +70,7 @@ public class Account {
     Boolean isAccountEnabled() {
         return this.accountLifecycleStatus == AccountLifecycleStatus.ENABLED;
     }
+
     /*
      * Checks whether the current Account is unlocked.
      */
@@ -170,20 +177,52 @@ public class Account {
      * Builder Pattern to create an object of type Account.
      */
     public static class AccountBuilder {
+        // Required fields
         private Credentials credentials;
         private EmailAddress emailAddress;
+
+        // Optional fields with defaults
+        private UUID id;
+        private AccountLifecycleStatus accountLifecycleStatus;
+        private AccountLockStatus accountLockStatus;
+        private Instant createdAt;
         private Collection<UUID> roleIds;
 
         public AccountBuilder credentials(Credentials credentials) {
             this.credentials = credentials;
             return this;
         }
+
         public AccountBuilder emailAddress(EmailAddress emailAddress) {
             this.emailAddress = emailAddress;
             return this;
         }
+
         public AccountBuilder roleIds(Collection<UUID> roleIds) {
             this.roleIds = roleIds;
+            return this;
+        }
+
+        /*
+         * Explicit configuration methods for entity-to-domain mapping.
+         */
+        public AccountBuilder id(UUID id) {
+            this.id = id;
+            return this;
+        }
+
+        public AccountBuilder accountLifecycleStatus(AccountLifecycleStatus accountLifecycleStatus) {
+            this.accountLifecycleStatus = accountLifecycleStatus;
+            return this;
+        }
+
+        public AccountBuilder accountLockStatus(AccountLockStatus accountLockStatus) {
+            this.accountLockStatus = accountLockStatus;
+            return this;
+        }
+
+        public AccountBuilder createdAt(Instant createdAt) {
+            this.createdAt = createdAt;
             return this;
         }
 
