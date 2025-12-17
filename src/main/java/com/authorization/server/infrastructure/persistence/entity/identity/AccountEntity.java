@@ -31,7 +31,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = Jpa.Table.ACCOUNT, uniqueConstraints = @UniqueConstraint(columnNames = Jpa.Column.EMAIL_ADDRESS ))
+@Table(name = Jpa.Table.ACCOUNT, uniqueConstraints = @UniqueConstraint(name = Jpa.Column.EMAIL_CONSTRAINT_NAME, columnNames = Jpa.Column.EMAIL_ADDRESS ))
 public class AccountEntity extends BaseEntity {
 
     @NotNull

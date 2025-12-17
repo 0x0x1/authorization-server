@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +22,8 @@ import com.authorization.server.web.constant.Web;
 import com.authorization.server.web.dto.RegisterRequestDto;
 import com.authorization.server.web.dto.RegisterResponseDto;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+
 @RestController
 @RequestMapping(Web.Route.BASE_PATH)
 public class AccountRegistrationRestImpl implements AccountRegistrationRestDefinition {
@@ -37,21 +40,10 @@ public class AccountRegistrationRestImpl implements AccountRegistrationRestDefin
 
     @Override
     @PostMapping(Web.Route.REGISTRATION_PATH)
+    @RateLimiter(name = "accountRegistration")
     public ResponseEntity<Result<?>> registerAccount(@RequestBody @Validated RegisterRequestDto requestDto, BindingResult bindingResult, Locale locale) {
         if (bindingResult.hasErrors()) {
-            String message = i18n.getMessage(Web.Validation.VALIDATION_FAILED, locale);
-
-            var errors = bindingResult.getFieldErrors().stream()
-                    .map(f -> new Message(Web.MessageSeverity.INFO, f.getDefaultMessage()))
-                    .toList();
-
-            var result = Result.onFailure()
-                            .withCode(HttpStatus.BAD_REQUEST)
-                            .withMessage(message)
-                            .withErrors(errors)
-                            .build();
-
-            return ResponseEntity.status(result.code()).body(result);
+            return handleRegistration(bindingResult, locale);
         }
 
         RegisterCommand registerCommand = converter.convert(requestDto, RegisterCommand.class);
@@ -60,11 +52,28 @@ public class AccountRegistrationRestImpl implements AccountRegistrationRestDefin
         String message = i18n.getMessage(Web.AccountFlow.REGISTRATION_SUCCESS, locale);
 
         var result = Result.onSuccess()
-                        .withCode(HttpStatus.CREATED)
+                        .withCode(HttpStatusCode.valueOf(201).value())
                         .withData(registerResponseDto)
                         .withMessage(message)
                         .build();
 
         return ResponseEntity.status(result.code()).body(result);
+    }
+
+    private ResponseEntity<Result<?>> handleRegistration(BindingResult bindingResult, Locale locale) {
+        String message = i18n.getMessage(Web.Validation.VALIDATION_FAILED, locale);
+
+        var errors = bindingResult.getFieldErrors().stream()
+                .map(f -> new Message(Web.MessageSeverity.INFO, f.getDefaultMessage()))
+                .toList();
+
+        var result = Result.onFailure()
+                .withCode(HttpStatusCode.valueOf(400).value())
+                .withMessage(message)
+                .withErrors(errors)
+                .build();
+
+        return ResponseEntity.status(result.code()).body(result);
+
     }
 }

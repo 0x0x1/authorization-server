@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PasswordEntity {
 
-    @Column(name = Jpa.Column.PASSWORD, nullable = false, unique = true)
+    @Column(name = Jpa.Column.PASSWORD, nullable = false)
     private String password;
 
     public PasswordEntity() {}

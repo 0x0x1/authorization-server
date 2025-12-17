@@ -1,4 +1,6 @@
-package com.authorization.server.application.exception;
+package com.authorization.server.infrastructure.persistence;
+
+import lombok.Getter;
 
 /**
  * Exception thrown when an attempt is made to create a user that already exists.
@@ -7,14 +9,18 @@ package com.authorization.server.application.exception;
  * fails due to a duplicate email.
  *
  */
-public class DuplicateUserException extends RuntimeException {
+@Getter
+public class DuplicateAccountException extends RuntimeException {
+
+    private final String contraintName;
 
     /**
      * Constructs a new {@code DuplicateUserException} with the specified detail message.
      *
      * @param message the detail message explaining the reason for the exception.
      */
-    public DuplicateUserException(String message) {
+    public DuplicateAccountException(String message, String contraintName) {
         super(message);
+        this.contraintName = contraintName;
     }
 }

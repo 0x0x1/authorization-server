@@ -17,7 +17,21 @@ spring:
     hibernate:
       ddl-auto: create-drop       # Auto-update schema
     show-sql: false  # Log SQL queries
-
+resilience4j:
+  rateLimiter:
+    configs:
+      default:
+        register-health-indicator: true
+        event-consumer-buffer-size: 100
+    instances:
+      accountRegistration:
+        limit-for-period: ${LIMIT_FOR_PERIOD}
+        limit-refresh-period: ${LIMIT_REFRESH_PERIOD}
+        timeout-duration: ${TIMEOUT_DURATION}
+        register-health-indicator: ${REGISTER_HEALTH_INDICATOR}
+        subscribe-for-events: true
+        allow-health-indicator-to-fail: false
+        event-consumer-buffer-size: 50
 
 logging:
   level:

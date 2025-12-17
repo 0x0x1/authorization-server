@@ -29,6 +29,8 @@ public final class Jpa {
         public static final String LOCK_STATUS = "LOCK_STATUS";
         public static final String CREATED_AT = "CREATED_AT";
         public static final String EMAIL_ADDRESS = "EMAIL_ADDRESS";
+        public static final String EMAIL_CONSTRAINT_NAME = "account_email_address_key";
+        public static final String USERNAME_CONSTRAINT_NAME = "account_username_key";
         public final static String PASSWORD = "PASSWORD";
         public final static String USERNAME = "USERNAME";
     }

@@ -51,28 +51,31 @@ public class Web {
             throw new IllegalStateException("Utility class");
         }
 
+        public static final String REGISTRATION_WITH_DUPLICATE_EMAIL = "account.registration.duplicate.email";
+        public static final String REGISTRATION_WITH_DUPLICATE_USERNAME = "account.registration.duplicate.username";
+
         /** Message key for successful user sign-up. */
-        public static final String REGISTRATION_SUCCESS = "app.account.registration.success";
+        public static final String REGISTRATION_SUCCESS = "account.registration.success";
 
         /** Message key for successful login. */
-        public static final String LOGIN_SUCCESS = "app.login.success";
+        public static final String LOGIN_SUCCESS = "account.login.success";
 
         /** Message key for successful user account activation. */
-        public static final String ACCOUNT_ACTIVATION_SUCCESS = "app.account.activation.success";
+        public static final String ACCOUNT_ACTIVATION_SUCCESS = "account.activation.success";
 
 
-        public static final String ACCOUNT_REGISTRATION_FAILED = "app.register.failure";
+        public static final String ACCOUNT_REGISTRATION_FAILED = "account.registration.failed";
 
-        public static final String ACCOUNT_LOGIN_FAILED = "app.login.failure";
+        public static final String ACCOUNT_LOGIN_FAILED = "account.login.failure";
 
 
         /** Message key indicating that a user account is disabled. */
-        public static final String ACCOUNT_DISABLED = "app.user.disabled";
+        public static final String ACCOUNT_DISABLED = "account.disabled";
 
         /** Subject line for email verification messages. */
-        public static final String SUBJECT = "app.verify.your.email";
+        public static final String SUBJECT = "account.verify.your.email";
 
-        public static final String REGISTER_ACCOUNT_ATTEMPT = "app.register.account.attempt";
+        public static final String REGISTER_ACCOUNT_ATTEMPT = "account.register.account.attempt";
     }
 
     /**
@@ -139,16 +142,16 @@ public class Web {
         }
 
         /** Circuit breaker instance name related to user registration. */
-        public static final String USER_REGISTRATION_SERVICE = "user-registration-service";
+        public static final String USER_REGISTRATION_SERVICE = "account-registration-service";
 
         /** Message key used when user registration fails. */
-        public static final String USER_REGISTRATION_FAILED = "user-registration-failed";
+        public static final String USER_REGISTRATION_FAILED = "account-registration-failed";
 
         /** Metric/event key representing a user registration attempt. */
         public static final String REGISTER_ACCOUNT_ATTEMPT = "register-account-attempt";
 
         /** Message key indicating API rate limits have been exceeded. */
-        public static final String API_REQUESTS_EXCEED_THRESHOLD = "api-requests-exceed-threshold";
+        public static final String API_REQUESTS_EXCEED_THRESHOLD = "account.requests.exceed.threshold";
 
         /** Message key representing invalid email input. */
         public static final String INVALID_EMAIL = "invalid-email";
@@ -176,7 +179,6 @@ public class Web {
 
         /** Message key for validation failures intercepted in resilient flows. */
         public static final String VALIDATION_FAILED = "account.validation.failed";
-
 
     }
 }

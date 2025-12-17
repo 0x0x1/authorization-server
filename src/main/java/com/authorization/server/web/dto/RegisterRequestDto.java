@@ -7,6 +7,9 @@ import jakarta.validation.constraints.Size;
 
 import com.authorization.server.web.validation.annotation.ValidateEmail;
 
+import lombok.Builder;
+
+@Builder
 public record RegisterRequestDto(
         @NotNull @NotBlank
         String username,

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 
-public record Result<T>(HttpStatus code, T data, Success success, String message, List<Message> errors) {
+public record Result<T>(int code, T data, Success success, String message, List<Message> errors) {
 
     public final static class OnSuccess<T> {
-        private HttpStatus code;
+        private int code;
         private T data;
         private String message;
         private final List<Message> errors = new ArrayList<>();
@@ -17,7 +17,7 @@ public record Result<T>(HttpStatus code, T data, Success success, String message
         private OnSuccess() {
         }
 
-        public OnSuccess<T> withCode(HttpStatus code) {
+        public OnSuccess<T> withCode(int code) {
             this.code = code;
             return this;
         }
@@ -43,12 +43,12 @@ public record Result<T>(HttpStatus code, T data, Success success, String message
     }
 
     public final static class OnFailure<T> {
-        private HttpStatus code;
+        private int code;
         private T data;
         private String message;
         private List<Message> errors;
 
-        public OnFailure<T> withCode(HttpStatus code) {
+        public OnFailure<T> withCode(int code) {
             this.code = code;
             return this;
         }
